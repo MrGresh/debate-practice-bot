@@ -1,0 +1,131 @@
+<div class="register-container">
+  <div class="card">
+    <h2 class="title">{{ step === 'register' ? 'Create Your Account' : 'Verify Your Email' }}</h2>
+    <p class="subtitle">
+      <span *ngIf="step === 'register'">Enter your details below to get started.</span>
+      <span *ngIf="step === 'otp'">A 6-digit OTP has been sent to <strong>{{ registeredEmail }}</strong>.</span>
+    </p>
+
+    <form *ngIf="step === 'register'" [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
+      
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input 
+          id="name" 
+          type="text" 
+          formControlName="name" 
+          [class.is-invalid]="regF['name'].invalid && (regF['name'].dirty || regF['name'].touched)"
+          placeholder="John Doe"
+        />
+        <div *ngIf="regF['name'].invalid && (regF['name'].dirty || regF['name'].touched)" class="error-message">
+          <span *ngIf="regF['name'].errors?.['required']">Name is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email" 
+          [class.is-invalid]="regF['email'].invalid && (regF['email'].dirty || regF['email'].touched)"
+          placeholder="your.email@example.com"
+        />
+        <div *ngIf="regF['email'].invalid && (regF['email'].dirty || regF['email'].touched)" class="error-message">
+          <span *ngIf="regF['email'].errors?.['required']">Email is required.</span>
+          <span *ngIf="regF['email'].errors?.['email']">Enter a valid email address.</span>
+        </div>
+      </div>
+
+      <div class="form-group input-with-icon">
+        <label for="password">Password</label>
+        <input 
+          id="password" 
+          [type]="isPasswordVisible ? 'text' : 'password'"
+          formControlName="password" 
+          [class.is-invalid]="regF['password'].invalid && (regF['password'].dirty || regF['password'].touched)"
+          placeholder="••••••••"
+        />
+        <button 
+          type="button" 
+          class="password-toggle" 
+          (click)="togglePasswordVisibility('password')" 
+          title="Toggle password visibility">
+          {{ isPasswordVisible ? '👁️' : '🔒' }}
+        </button>
+        <div *ngIf="regF['password'].invalid && (regF['password'].dirty || regF['password'].touched)" class="error-message">
+          <span *ngIf="regF['password'].errors?.['required']">Password is required.</span>
+          <span *ngIf="regF['password'].errors?.['minlength']">Password must be at least 6 characters.</span>
+        </div>
+      </div>
+
+      <div class="form-group input-with-icon">
+        <label for="confirmPassword">Confirm Password</label>
+        <input 
+          id="confirmPassword" 
+          [type]="isConfirmPasswordVisible ? 'text' : 'password'" 
+          formControlName="confirmPassword" 
+          [class.is-invalid]="
+            (regF['confirmPassword'].invalid && (regF['confirmPassword'].dirty || regF['confirmPassword'].touched)) || 
+            (registerForm.errors?.['passwordsNotMatching'] && regF['confirmPassword'].value)
+          "
+          placeholder="••••••••"
+        />
+        <button 
+          type="button" 
+          class="password-toggle" 
+          (click)="togglePasswordVisibility('confirmPassword')" 
+          title="Toggle password visibility">
+          {{ isConfirmPasswordVisible ? '👁️' : '🔒' }}
+        </button>
+        <div *ngIf="regF['confirmPassword'].invalid && (regF['confirmPassword'].dirty || regF['confirmPassword'].touched)" class="error-message">
+            <span *ngIf="regF['confirmPassword'].errors?.['required']">Confirmation is required.</span>
+        </div>
+        <div *ngIf="registerForm.errors?.['passwordsNotMatching'] && regF['confirmPassword'].value && (regF['confirmPassword'].dirty || regF['confirmPassword'].touched)" class="error-message">
+            <span>Passwords do not match.</span>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid || isLoading" class="btn-primary">
+        <span *ngIf="!isLoading">Register & Send OTP</span>
+        <span *ngIf="isLoading">Registering...</span>
+      </button>
+      
+      <p class="login-text">
+        Already have an account? <a [routerLink]="['/login']" class="link">Login here</a>
+      </p>
+    </form>
+
+    <form *ngIf="step === 'otp'" [formGroup]="otpForm" (ngSubmit)="onSubmitOtp()">
+      
+      <div class="form-group">
+        <label for="otp">Verification Code (OTP)</label>
+        <input 
+          id="otp" 
+          type="text" 
+          formControlName="otp" 
+          maxlength="6"
+          [class.is-invalid]="otpF['otp'].invalid && (otpF['otp'].dirty || otpF['otp'].touched)"
+          placeholder="Enter 6-digit code"
+        />
+        <div *ngIf="otpF['otp'].invalid && (otpF['otp'].dirty || otpF['otp'].touched)" class="error-message">
+          <span *ngIf="otpF['otp'].errors?.['required']">OTP is required.</span>
+          <span *ngIf="otpF['otp'].errors?.['pattern']">OTP must be a 6-digit number.</span>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="otpForm.invalid || isLoading" class="btn-primary">
+        <span *ngIf="!isLoading">Verify Account</span>
+        <span *ngIf="isLoading">Verifying...</span>
+      </button>
+
+      <div class="otp-footer-links">
+        <button type="button" class="link resend-btn" (click)="resendOtp()" [disabled]="otpResent">
+            {{ otpResent ? 'OTP Sent!' : 'Resend OTP' }}
+        </button>
+        <a [routerLink]="['/login']" class="link">Go to Login</a>
+      </div>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="login-container">
+  <h2>Admin Login</h2>
+  
+  <form (ngSubmit)="onLogin()">
+    
+    <div class="form-group">
+      <label for="adminId">Admin ID</label>
+      <input 
+        type="text" 
+        id="adminId" 
+        name="adminId" 
+        [(ngModel)]="credentials.adminId" 
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        [(ngModel)]="credentials.password" 
+        required
+      />
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit">Log In</button>
+  </form>
+</div>

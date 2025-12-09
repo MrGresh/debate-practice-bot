@@ -1,0 +1,143 @@
+/* --- Global Form Setup --- */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f9; 
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* --- Form Group and Input Styling --- */
+.form-group {
+  margin-bottom: 20px;
+  /* 🎯 KEY CHANGE 1: Must be relative to position the icon absolutely */
+  position: relative; 
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  /* 🎯 KEY CHANGE 2: Add extra padding on the right to make space for the toggle icon */
+  padding-right: 40px; 
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box; 
+}
+
+/* --- Password Toggle Icon Styles --- */
+.password-toggle {
+  /* 🎯 KEY CHANGE 3: Positioning the icon */
+  position: absolute;
+  top: 36px; /* 8px (label margin-bottom) + 8px (label height est.) + 12px (input padding-top) + offset = ~36px */
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  color: #888;
+  z-index: 10;
+  height: 20px; 
+}
+
+/* --- Validation and Focus Styles --- */
+input:focus {
+  border-color: #007bff; /* Example focus color */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+input.is-invalid {
+  border-color: #dc3545; 
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* --- Button Styling --- */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff; /* Example primary color for Login */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+  margin-top: 10px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #a0cfff;
+  cursor: not-allowed;
+}
+
+/* --- Footer and Link Styling --- */
+.footer-links {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.register-text {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #777;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 500;
+}
+
+.link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
