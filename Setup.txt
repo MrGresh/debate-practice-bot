@@ -1,0 +1,9 @@
+Angular setup:
+
+1.) ng new my-frontend --directory . --force --skip-install --style=css --ssr=false --zoneless=false
+
+2.) npm install
+
+3.) ng serve
+
+4.) For Component generation from route
