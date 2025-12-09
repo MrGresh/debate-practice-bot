@@ -1,9 +1,6 @@
 import { Routes } from '@angular/router';
-import { Login } from './components/login/login';
-import { Register } from './components/register/register';
-import { ForgotPassword } from './components/forgot-password/forgot-password';
-import { Dashboard } from './components/dashboard/dashboard';
-import { authGuard } from './guards/auth.guard';
+import { authGuard } from './guards';
+import { Login, Register, ForgotPassword, Dashboard } from './components';
 
 export const routes: Routes = [
   // Public Routes

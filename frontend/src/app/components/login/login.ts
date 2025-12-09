@@ -6,6 +6,7 @@ import { AuthService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResInterfaces } from '../../interfaces';
 import { catchError } from 'rxjs';
+import { setToken } from '../../utils';
 
 @Component({
   selector: 'app-login',
@@ -61,7 +62,7 @@ export class Login {
       this.isLoading = false;
       if (response.success && response.data?.token) {
         this.toastr.success('Login successful! Redirecting to dashboard.', 'Welcome!'); 
-        this.authService.setToken(response.data.token);
+        setToken(response.data.token);
         this.router.navigate(['/dashboard']);
       } else {
         const message = response.message || 'Login failed due to an unknown error.';

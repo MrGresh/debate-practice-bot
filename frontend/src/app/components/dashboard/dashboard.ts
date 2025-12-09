@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../services';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { getToken, removeToken } from '../../utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ export class Dashboard {
   private toastr = inject(ToastrService);
 
   logout(): void {
-    const token = this.authService.getToken();
+    const token = getToken();
 
     if (token) {
       this.authService.logout(token).subscribe({
@@ -29,13 +30,13 @@ export class Dashboard {
           this.toastr.error(message, 'Logout Failed');
         },
         complete: () => {
-          this.authService.removeToken();
+          removeToken();
           this.router.navigate(['/login']);
         }
       });
     } else {
        this.toastr.info('You were already logged out.', 'Session Cleared');
-       this.authService.removeToken();
+       removeToken();
        this.router.navigate(['/login']);
     }
   }
