@@ -8,7 +8,6 @@ export interface User {
   _id: string;
   name: string;
   email: string;
-  // Add other user fields as per your User model
 }
 
 // --- Request Interfaces ---
