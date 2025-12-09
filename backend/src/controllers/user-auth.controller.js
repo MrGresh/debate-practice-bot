@@ -335,3 +335,31 @@ exports.verifyChangeEmailOtp = async (req, res) => {
     res.status(statusCode).json({ success: false, message: error.message });
   }
 };
+
+exports.getProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Not authorized or token expired." });
+    }
+
+    const { _id, name, email } = req.user;
+
+    res.status(200).json({
+      success: true,
+      message: "User profile fetched successfully.",
+      data: {
+        _id,
+        name,
+        email,
+      },
+    });
+  } catch (error) {
+    logger.error(`Get Profile error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Server error during profile retrieval.",
+    });
+  }
+};

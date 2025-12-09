@@ -13,9 +13,12 @@ publicRouter.post("/forgot-password/reset", userAuthController.verifyForgotPassw
 
 protectedRouter.post("/logout", userAuthController.logout);
 protectedRouter.get("/validate-token", userAuthController.validateToken);
+
 protectedRouter.post("/change-password", userAuthController.changePassword);
 protectedRouter.post("/change-email/send-otp", userAuthController.sendChangeEmailOtp);
 protectedRouter.post("/change-email/verify-otp", userAuthController.verifyChangeEmailOtp);
+
+protectedRouter.get("/profile", userAuthController.getProfile);
 
 module.exports = {
   protectedRoutes: protectedRouter,
