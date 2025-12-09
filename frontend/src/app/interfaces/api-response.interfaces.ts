@@ -10,40 +10,6 @@ export interface User {
   email: string;
 }
 
-// --- Request Interfaces ---
-
-export interface RegisterRequest {
-  name: string;
-  email: string;
-  password: string;
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface VerifyOtpRequest {
-  email: string;
-  otp: string;
-}
-
-export interface ResendOtpRequest {
-  email: string;
-}
-
-export interface ForgotPasswordSendOtpRequest {
-  email: string;
-}
-
-export interface ForgotPasswordResetRequest {
-  email: string;
-  otp: string;
-  newPassword: string;
-}
-
-// --- Response Interfaces ---
-
 export interface RegisterResponseData {
   userId: string;
 }

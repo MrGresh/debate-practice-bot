@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { RegisterResponse, VerifyOtpResponse, ResendOtpResponse } from '../../interfaces/api.interfaces';
+import { ApiResInterfaces } from '../../interfaces';
 import { catchError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
@@ -100,7 +100,7 @@ export class Register {
         this.isLoading = false;
         return [];
       })
-    ).subscribe((response: RegisterResponse) => {
+    ).subscribe((response: ApiResInterfaces.RegisterResponse) => {
       this.isLoading = false;
       if (response.success) {
         this.registeredEmail = payload.email;
@@ -132,7 +132,7 @@ export class Register {
         this.isLoading = false;
         return [];
       })
-    ).subscribe((response: VerifyOtpResponse) => {
+    ).subscribe((response: ApiResInterfaces.VerifyOtpResponse) => {
       this.isLoading = false;
       if (response.success) {
         this.toastr.success(response.message || 'Account verified successfully! Redirecting to login...', 'Success');
@@ -158,7 +158,7 @@ export class Register {
         this.toastr.error(message, 'Resend Failed');
         return [];
       })
-    ).subscribe((response: ResendOtpResponse) => {
+    ).subscribe((response: ApiResInterfaces.ResendOtpResponse) => {
       if (response.success) {
         this.toastr.success(response.message || 'New OTP sent. Check your email.', 'OTP Sent');
         this.otpResent = true;

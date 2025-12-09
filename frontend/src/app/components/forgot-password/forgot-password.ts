@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { ForgotPasswordSendOtpResponse, ForgotPasswordResetResponse } from '../../interfaces/api.interfaces';
+import { ApiResInterfaces } from '../../interfaces';
 import { catchError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
@@ -89,7 +89,7 @@ export class ForgotPassword {
         this.isLoading = false;
         return [];
       })
-    ).subscribe((response: ForgotPasswordSendOtpResponse) => {
+    ).subscribe((response: ApiResInterfaces.ForgotPasswordSendOtpResponse) => {
       this.isLoading = false;
       if (response.success && response.data?.email) {
         this.resetEmail = response.data.email;
@@ -129,7 +129,7 @@ export class ForgotPassword {
         this.isLoading = false;
         return [];
       })
-    ).subscribe((response: ForgotPasswordResetResponse) => {
+    ).subscribe((response: ApiResInterfaces.ForgotPasswordResetResponse) => {
       this.isLoading = false;
       if (response.success) {
         this.toastr.success(response.message || 'Password reset successful! Redirecting to login...', 'Success');

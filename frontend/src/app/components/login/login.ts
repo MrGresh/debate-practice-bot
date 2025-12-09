@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { LoginResponse } from '../../interfaces/api.interfaces';
+import { ApiResInterfaces } from '../../interfaces';
 import { catchError } from 'rxjs';
 
 @Component({
@@ -57,7 +57,7 @@ export class Login {
         this.isLoading = false;
         return [];
       })
-    ).subscribe((response: LoginResponse) => {
+    ).subscribe((response: ApiResInterfaces.LoginResponse) => {
       this.isLoading = false;
       if (response.success && response.data?.token) {
         this.toastr.success('Login successful! Redirecting to dashboard.', 'Welcome!'); 

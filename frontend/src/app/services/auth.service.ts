@@ -2,22 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { API_CONSTANTS } from '../constants';
-import {
-  RegisterRequest,
-  RegisterResponse,
-  VerifyOtpRequest,
-  VerifyOtpResponse,
-  ResendOtpRequest,
-  ResendOtpResponse,
-  LoginRequest,
-  LoginResponse,
-  LogoutResponse,
-  ForgotPasswordSendOtpRequest,
-  ForgotPasswordSendOtpResponse,
-  ForgotPasswordResetRequest,
-  ForgotPasswordResetResponse,
-  ValidateTokenResponse,
-} from '../interfaces/api.interfaces';
+import { ApiReqInterfaces, ApiResInterfaces } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -37,41 +22,41 @@ export class AuthService {
 
   // --- Public APIs ---
 
-  register(payload: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(API_CONSTANTS.USER_REGISTER, payload);
+  register(payload: ApiReqInterfaces.RegisterRequest): Observable<ApiResInterfaces.RegisterResponse> {
+    return this.http.post<ApiResInterfaces.RegisterResponse>(API_CONSTANTS.USER_REGISTER, payload);
   }
 
-  verifyOtp(payload: VerifyOtpRequest): Observable<VerifyOtpResponse> {
-    return this.http.post<VerifyOtpResponse>(
+  verifyOtp(payload: ApiReqInterfaces.VerifyOtpRequest): Observable<ApiResInterfaces.VerifyOtpResponse> {
+    return this.http.post<ApiResInterfaces.VerifyOtpResponse>(
       API_CONSTANTS.USER_VERIFY_OTP,
       payload
     );
   }
 
-  resendOtp(payload: ResendOtpRequest): Observable<ResendOtpResponse> {
-    return this.http.post<ResendOtpResponse>(
+  resendOtp(payload: ApiReqInterfaces.ResendOtpRequest): Observable<ApiResInterfaces.ResendOtpResponse> {
+    return this.http.post<ApiResInterfaces.ResendOtpResponse>(
       API_CONSTANTS.USER_RESEND_OTP,
       payload
     );
   }
 
-  login(payload: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(API_CONSTANTS.USER_LOGIN, payload);
+  login(payload: ApiReqInterfaces.LoginRequest): Observable<ApiResInterfaces.LoginResponse> {
+    return this.http.post<ApiResInterfaces.LoginResponse>(API_CONSTANTS.USER_LOGIN, payload);
   }
 
   forgotPasswordSendOtp(
-    payload: ForgotPasswordSendOtpRequest
-  ): Observable<ForgotPasswordSendOtpResponse> {
-    return this.http.post<ForgotPasswordSendOtpResponse>(
+    payload: ApiReqInterfaces.ForgotPasswordSendOtpRequest
+  ): Observable<ApiResInterfaces.ForgotPasswordSendOtpResponse> {
+    return this.http.post<ApiResInterfaces.ForgotPasswordSendOtpResponse>(
       API_CONSTANTS.FORGOT_PASSWORD_SEND_OTP,
       payload
     );
   }
 
   forgotPasswordReset(
-    payload: ForgotPasswordResetRequest
-  ): Observable<ForgotPasswordResetResponse> {
-    return this.http.post<ForgotPasswordResetResponse>(
+    payload: ApiReqInterfaces.ForgotPasswordResetRequest
+  ): Observable<ApiResInterfaces.ForgotPasswordResetResponse> {
+    return this.http.post<ApiResInterfaces.ForgotPasswordResetResponse>(
       API_CONSTANTS.FORGOT_PASSWORD_RESET,
       payload
     );
@@ -79,16 +64,15 @@ export class AuthService {
 
   // --- Protected APIs ---
 
-  validateToken(token: string): Observable<ValidateTokenResponse> {
-    return this.http.get<ValidateTokenResponse>(
+  validateToken(token: string): Observable<ApiResInterfaces.ValidateTokenResponse> {
+    return this.http.get<ApiResInterfaces.ValidateTokenResponse>(
       API_CONSTANTS.VALIDATE_TOKEN,
       { headers: this.getAuthHeaders(token) }
     );
   }
 
-  logout(token: string): Observable<LogoutResponse> {
-    // Logout is a protected route in your backend
-    return this.http.post<LogoutResponse>(
+  logout(token: string): Observable<ApiResInterfaces.LogoutResponse> {
+    return this.http.post<ApiResInterfaces.LogoutResponse>(
       API_CONSTANTS.USER_LOGOUT,
       {},
       { headers: this.getAuthHeaders(token) }
