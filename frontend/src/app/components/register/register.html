@@ -63,7 +63,7 @@
         <label for="confirmPassword">Confirm Password</label>
         <input 
           id="confirmPassword" 
-          [type]="isConfirmPasswordVisible ? 'text' : 'password'" 
+          [type]="isConfirmPasswordVisible ? 'text' : 'password'"
           formControlName="confirmPassword" 
           [class.is-invalid]="
             (regF['confirmPassword'].invalid && (regF['confirmPassword'].dirty || regF['confirmPassword'].touched)) || 
@@ -87,7 +87,7 @@
       </div>
 
       <button type="submit" [disabled]="registerForm.invalid || isLoading" class="btn-primary">
-        <span *ngIf="!isLoading">Register & Send OTP</span>
+        <span *ngIf="!isLoading">Register Account</span>
         <span *ngIf="isLoading">Registering...</span>
       </button>
       
@@ -120,12 +120,19 @@
       </button>
 
       <div class="otp-footer-links">
-        <button type="button" class="link resend-btn" (click)="resendOtp()" [disabled]="otpResent">
-            {{ otpResent ? 'OTP Sent!' : 'Resend OTP' }}
+        <p *ngIf="otpCountdownSeconds > 0" class="countdown-text">
+            Resend in: <strong>{{ countdownDisplay }}</strong>
+        </p>
+        
+        <button 
+          type="button" 
+          class="link resend-btn" 
+          (click)="resendOtp()" 
+          [disabled]="otpCountdownSeconds > 0 || isLoading">
+            {{ otpCountdownSeconds > 0 ? 'Wait to Resend' : 'Resend OTP' }}
         </button>
         <a [routerLink]="['/login']" class="link">Go to Login</a>
       </div>
     </form>
-
   </div>
 </div>

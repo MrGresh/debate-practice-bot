@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 

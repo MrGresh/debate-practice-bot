@@ -1,24 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { API_CONSTANTS } from '../constants';
 import { ApiReqInterfaces, ApiResInterfaces } from '../interfaces';
+import { getAuthHeaders } from '../utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private http: HttpClient) {}
-
-  private getAuthHeaders(token?: string): HttpHeaders {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    if (token) {
-      headers = headers.set('Authorization', `Bearer ${token}`);
-    }
-    return headers;
-  }
 
   // --- Public APIs ---
 
@@ -67,7 +58,7 @@ export class AuthService {
   validateToken(token: string): Observable<ApiResInterfaces.ValidateTokenResponse> {
     return this.http.get<ApiResInterfaces.ValidateTokenResponse>(
       API_CONSTANTS.VALIDATE_TOKEN,
-      { headers: this.getAuthHeaders(token) }
+      { headers: getAuthHeaders(token) }
     );
   }
 
@@ -75,7 +66,7 @@ export class AuthService {
     return this.http.post<ApiResInterfaces.LogoutResponse>(
       API_CONSTANTS.USER_LOGOUT,
       {},
-      { headers: this.getAuthHeaders(token) }
+      { headers: getAuthHeaders(token) }
     );
   }
 
@@ -91,11 +82,5 @@ export class AuthService {
 
   removeToken(): void {
     localStorage.removeItem('auth_token');
-  }
-
-  // Function for the Auth Guard
-  isAuthenticated(): boolean {
-    const token = this.getToken();
-    return !!token;
   }
 }

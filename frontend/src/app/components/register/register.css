@@ -1,4 +1,3 @@
-/* --- Page Container and Centering (Existing Styles) --- */
 .register-container {
   display: flex;
   justify-content: center;
@@ -9,7 +8,6 @@
   padding: 20px;
 }
 
-/* --- Card Styling (Existing Styles) --- */
 .card {
   background: #ffffff;
   padding: 40px;
@@ -34,10 +32,9 @@
   text-align: center;
 }
 
-/* --- Form Group and Inputs (Updated for positioning) --- */
 .form-group {
   margin-bottom: 20px;
-  position: relative; /* <-- Added for icon positioning */
+  position: relative; 
 }
 
 label {
@@ -53,7 +50,7 @@ input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 12px 15px;
-  padding-right: 40px; /* <-- Added space for the icon */
+  padding-right: 40px; 
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
@@ -61,10 +58,9 @@ input[type="password"] {
   box-sizing: border-box; 
 }
 
-/* --- Password Toggle Icon Styles (NEW) --- */
 .password-toggle {
   position: absolute;
-  top: 36px; /* Adjust based on label height (8px) + padding (8px) + input height offset */
+  top: 36px; 
   right: 10px;
   background: none;
   border: none;
@@ -73,10 +69,9 @@ input[type="password"] {
   font-size: 16px;
   color: #888;
   z-index: 10;
-  height: 20px; /* to prevent click area overlap */
+  height: 20px; 
 }
 
-/* --- Validation Styles (Existing Styles) --- */
 input:focus {
   border-color: #28a745; 
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
@@ -93,7 +88,6 @@ input.is-invalid {
   margin-top: 5px;
 }
 
-/* --- Button Styling (Existing Styles) --- */
 .btn-primary {
   width: 100%;
   padding: 12px;
@@ -113,16 +107,51 @@ input.is-invalid {
 }
 
 .btn-primary:disabled {
-  background-color: #a3d9b4;
+  background-color: #a7d9b5;
   cursor: not-allowed;
 }
 
-/* --- Footer Links (Existing Styles) --- */
 .login-text {
   margin-top: 25px;
   text-align: center;
   font-size: 14px;
   color: #777;
+}
+
+.otp-footer-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.countdown-text {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #28a745;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.resend-btn:hover:not([disabled]) {
+  color: #1e7e34;
+  text-decoration: underline;
+}
+
+.resend-btn:disabled {
+    cursor: not-allowed;
+    color: #aaa;
+    text-decoration: none;
 }
 
 .link {
@@ -135,24 +164,4 @@ input.is-invalid {
 .link:hover {
   color: #1e7e34;
   text-decoration: underline;
-}
-
-.otp-footer-links {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.resend-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.resend-btn:disabled {
-    cursor: not-allowed;
-    color: #aaa;
-    text-decoration: none;
 }

@@ -1,23 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators, FormGroup, AbstractControl } from '@angular/forms';
+import { Component, inject, OnDestroy } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services';
 import { ApiResInterfaces } from '../../interfaces';
-import { catchError } from 'rxjs';
+import { catchError, Subscription, timer } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
-
-function passwordMatchValidator(
-  control: AbstractControl
-): { [key: string]: boolean } | null {
-  const password = control.get('newPassword');
-  const confirmPassword = control.get('confirmNewPassword');
-
-  if (password && confirmPassword && password.value !== confirmPassword.value) {
-    return { passwordsNotMatching: true };
-  }
-  return null;
-}
+import { passwordMatchValidator } from '../../utils';
 
 @Component({
   selector: 'app-forgot-password',
@@ -26,7 +15,7 @@ function passwordMatchValidator(
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
 })
-export class ForgotPassword {
+export class ForgotPassword implements OnDestroy {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -35,9 +24,13 @@ export class ForgotPassword {
   step: 'send-otp' | 'reset-password' = 'send-otp';
   resetEmail: string = '';
   isLoading: boolean = false;
-  
-  isNewPasswordVisible: boolean = false;
-  isConfirmNewPasswordVisible: boolean = false;
+
+  isPasswordVisible: boolean = false;
+  isConfirmPasswordVisible: boolean = false;
+
+  private timerSubscription: Subscription | null = null;
+  otpCountdownSeconds: number = 0;
+  readonly RESEND_DELAY_SECONDS: number = 600;
 
   sendOtpForm: FormGroup;
   resetPasswordForm: FormGroup;
@@ -50,11 +43,15 @@ export class ForgotPassword {
     this.resetPasswordForm = this.fb.group(
       {
         otp: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
-        newPassword: ['', [Validators.required, Validators.minLength(6)]],
-        confirmNewPassword: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
       },
       { validators: passwordMatchValidator }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   get sendF() {
@@ -64,37 +61,71 @@ export class ForgotPassword {
     return this.resetPasswordForm.controls;
   }
 
-  togglePasswordVisibility(field: 'newPassword' | 'confirmNewPassword'): void {
-    if (field === 'newPassword') {
-      this.isNewPasswordVisible = !this.isNewPasswordVisible;
+  togglePasswordVisibility(field: 'password' | 'confirmPassword'): void {
+    if (field === 'password') {
+      this.isPasswordVisible = !this.isPasswordVisible;
     } else {
-      this.isConfirmNewPasswordVisible = !this.isConfirmNewPasswordVisible;
+      this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
     }
   }
 
+  private startTimer(): void {
+    this.stopTimer();
+    this.otpCountdownSeconds = this.RESEND_DELAY_SECONDS;
+
+    this.timerSubscription = timer(0, 1000).subscribe(() => {
+      if (this.otpCountdownSeconds > 0) {
+        this.otpCountdownSeconds--;
+      } else {
+        this.stopTimer();
+      }
+    });
+  }
+
+  private stopTimer(): void {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+      this.timerSubscription = null;
+    }
+  }
+
+  get countdownDisplay(): string {
+    const minutes = Math.floor(this.otpCountdownSeconds / 60);
+    const seconds = this.otpCountdownSeconds % 60;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
   onSubmitSendOtp(): void {
-    if (this.sendOtpForm.invalid) {
+    if (this.step === 'send-otp' && this.sendOtpForm.invalid) {
       this.sendOtpForm.markAllAsTouched();
       this.toastr.error('Please enter a valid email address.', 'Validation Error');
       return;
     }
 
-    this.isLoading = true;
-    const payload = this.sendOtpForm.value;
+    if (this.step === 'reset-password' && this.otpCountdownSeconds > 0) {
+        return;
+    }
 
-    this.authService.forgotPasswordSendOtp(payload).pipe(
+    this.isLoading = true;
+    
+    const emailToUse = this.step === 'send-otp' ? this.sendF['email'].value : this.resetEmail;
+
+    this.authService.forgotPasswordSendOtp({ email: emailToUse }).pipe(
       catchError((err) => {
-        const message = err.error?.message || 'Failed to send OTP. Please check the email.';
+        const message = err.error?.message || 'Failed to send OTP. Please check your email and try again.';
         this.toastr.error(message, 'Request Failed');
         this.isLoading = false;
         return [];
       })
     ).subscribe((response: ApiResInterfaces.ForgotPasswordSendOtpResponse) => {
       this.isLoading = false;
-      if (response.success && response.data?.email) {
-        this.resetEmail = response.data.email;
-        this.toastr.success(response.message || 'OTP sent successfully. Check your email.', 'OTP Sent');
+      if (response.success) {
+        this.resetEmail = emailToUse;
+        this.toastr.success(response.message || 'OTP sent successfully. Check your inbox.', 'Success');
         this.step = 'reset-password';
+        this.startTimer();
       } else {
         this.toastr.error(response.message || 'Failed to send OTP.', 'Request Failed');
       }
@@ -119,7 +150,7 @@ export class ForgotPassword {
     const payload = {
       email: this.resetEmail,
       otp: formValue.otp,
-      newPassword: formValue.newPassword,
+      newPassword: formValue.password,
     };
 
     this.authService.forgotPasswordReset(payload).pipe(
@@ -132,10 +163,11 @@ export class ForgotPassword {
     ).subscribe((response: ApiResInterfaces.ForgotPasswordResetResponse) => {
       this.isLoading = false;
       if (response.success) {
+        this.stopTimer();
         this.toastr.success(response.message || 'Password reset successful! Redirecting to login...', 'Success');
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 2000);
+        }, 1500);
       } else {
         this.toastr.error(response.message || 'Password reset failed.', 'Reset Failed');
       }
