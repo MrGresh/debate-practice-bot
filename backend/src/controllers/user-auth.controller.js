@@ -7,13 +7,13 @@ exports.register = async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required." });
+      return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
     if (password.length < 6) {
       return res
         .status(400)
-        .json({ message: "Password must be at least 6 characters long." });
+        .json({ success: false, message: "Password must be at least 6 characters long." });
     }
 
     const result = await userAuthService.register(name, email, password);
@@ -40,7 +40,7 @@ exports.verifyOtp = async (req, res) => {
     const { email, otp } = req.body;
 
     if (!email || !otp) {
-      return res.status(400).json({ message: "Email and OTP are required." });
+      return res.status(400).json({ success: false, message: "Email and OTP are required." });
     }
 
     const result = await userAuthService.verifyOtp(email, otp);
@@ -69,7 +69,7 @@ exports.resendOtp = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-      return res.status(400).json({ message: "Email is required." });
+      return res.status(400).json({ success: false, message: "Email is required." });
     }
 
     const result = await userAuthService.resendOtp(email);
@@ -101,7 +101,7 @@ exports.login = async (req, res) => {
     if (!email || !password) {
       return res
         .status(400)
-        .json({ message: "Email and password are required." });
+        .json({ success: false, message: "Email and password are required." });
     }
 
     const result = await userAuthService.login(email, password);
@@ -171,7 +171,7 @@ exports.forgotPasswordSendOtp = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-      return res.status(400).json({ message: "Email is required." });
+      return res.status(400).json({ success: false, message: "Email is required." });
     }
 
     const result = await userAuthService.forgotPasswordSendOtp(email);
@@ -202,13 +202,13 @@ exports.verifyForgotPasswordOtp = async (req, res) => {
     if (!email || !otp || !newPassword) {
       return res
         .status(400)
-        .json({ message: "Email, OTP, and newPassword are required." });
+        .json({ success: false, message: "Email, OTP, and newPassword are required." });
     }
 
     if (newPassword.length < 6) {
       return res
         .status(400)
-        .json({ message: "Password must be at least 6 characters long." });
+        .json({ success: false, message: "Password must be at least 6 characters long." });
     }
 
     const result = await userAuthService.verifyForgotPasswordOtp(
@@ -246,13 +246,13 @@ exports.changePassword = async (req, res) => {
     const { newPassword } = req.body;
 
     if (!newPassword) {
-      return res.status(400).json({ message: "New password is required." });
+      return res.status(400).json({ success: false, message: "New password is required." });
     }
 
     if (newPassword.length < 6) {
       return res
         .status(400)
-        .json({ message: "Password must be at least 6 characters long." });
+        .json({ success: false, message: "Password must be at least 6 characters long." });
     }
 
     const result = await userAuthService.changePassword(userId, newPassword);
@@ -279,7 +279,7 @@ exports.sendChangeEmailOtp = async (req, res) => {
     const { newEmail } = req.body;
 
     if (!newEmail) {
-      return res.status(400).json({ message: "New email is required." });
+      return res.status(400).json({ success: false, message: "New email is required." });
     }
 
     const result = await userAuthService.sendChangeEmailOtp(userId, newEmail);
@@ -310,7 +310,7 @@ exports.verifyChangeEmailOtp = async (req, res) => {
     const { otp } = req.body;
 
     if (!otp) {
-      return res.status(400).json({ message: "OTP is required." });
+      return res.status(400).json({ success: false, message: "OTP is required." });
     }
 
     const result = await userAuthService.verifyChangeEmailOtp(userId, otp);
