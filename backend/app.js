@@ -26,7 +26,7 @@ app.use(
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("Backend application configuration is ready.");
+  res.send("Backend is running!");
 });
 
 app.use("/api/v1", apiRouter);
@@ -34,7 +34,7 @@ app.use("/api/v1", apiRouter);
 const startApp = async () => {
   try {
     await connectMongo();
-    initializeSchedulers();
+    if (SERVER_CONFIG.IS_SCHEDULER_ENABLED) initializeSchedulers();
     return app;
   } catch (error) {
     console.error("Failed to connect to Mongo:", error);
