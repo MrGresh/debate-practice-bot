@@ -1,5 +1,8 @@
 # Debate Practice Bot 🎙️🤖
-An AI-powered voice assistant built with Vapi that helps users practice debating skills in real-time. The bot simulates an opponent, engages in structured arguments, and provides transcripts + feedback analysis after each session.
+• Developing a Debate Practice Bot using Vapi to help users improve their communication skills through interactive
+practice sessions.
+• Integrating AI-driven transcript analysis to provide personalized feedback reports, aiming to reduce manual review
+time by 85% through automation.
 
 # 📌 Features
 - Voice-based debates: Users interact with the bot via natural speech.
