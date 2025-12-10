@@ -13,7 +13,4 @@ time by 85% through automation.
 - Feedback reports: Analyze strengths, weaknesses, filler words, and rhetorical techniques.
 
 # 🛠️ Tech Stack
-- Frontend: Angular (for user dashboard & controls)
-- Backend: Node.js + Express (API + transcript processing)
-- Database: MongoDB (store transcripts, user profiles, analytics)
-- Voice AI: Vapi (customized voice assistant + transcript generation)
+<p align="left"> <a href="https://angular.io" target="_blank" rel="noreferrer"> <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="angular" width="40" height="40"/> </a> <a href="https://expressjs.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> </p>
