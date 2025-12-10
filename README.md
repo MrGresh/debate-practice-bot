@@ -1,6 +1,7 @@
 # Debate Practice Bot 🎙️🤖
 • Developing a Debate Practice Bot using Vapi to help users improve their communication skills through interactive
 practice sessions.
+
 • Integrating AI-driven transcript analysis to provide personalized feedback reports, aiming to reduce manual review
 time by 85% through automation.
 
