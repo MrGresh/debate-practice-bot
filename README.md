@@ -1,8 +1,12 @@
 # Debate Practice Bot 🎙️🤖
 • Developing an interactive Debate Practice Bot using Vapi’s voice AI to simulate real-time debates and enhance communication skills.
+
 • Integrating AI-driven transcript analysis to generate personalized feedback reports, aiming to reduce manual review time by 85%.
+
 • Building customizable debate prompts across domains like politics, technology, and ethics, allowing tailored practice sessions.
+
 • Engineering opponent simulation features where the bot dynamically adopts opposing or randomized stances to challenge users.
+
 • Designing a full-stack system with Angular (frontend), Node.js + Express (backend), MongoDB (storage/analytics), and Vapi (voice interaction + transcript generation).
 
 # 📌 Features
