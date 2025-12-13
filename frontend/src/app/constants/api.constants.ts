@@ -21,4 +21,5 @@ export const API_CONSTANTS = {
   VAPI_ASSISTANTS: `${BACKEND_BASE_URL}/vapi/list`,
   VAPI_SAVE_CALL_ID: `${BACKEND_BASE_URL}/vapi/save-call-id`,
   VAPI_SET_CALL_UNDER_EVALUATION: `${BACKEND_BASE_URL}/vapi/set-call-under-evaluation`,
+  VAPI_FETCH_CALL_LOGS: `${BACKEND_BASE_URL}/vapi/fetch-call-logs`,
 };

@@ -1,11 +1,11 @@
-const { vapiAssistantsService } = require("../services");
+const { vapiService } = require("../services");
 const { VAPI_CONFIG } = require("../constants");
 const { getLogger } = require("../utils");
 const logger = getLogger(module);
 
 exports.listAssistants = async (req, res) => {
   try {
-    const assistants = await vapiAssistantsService.listAssistants();
+    const assistants = await vapiService.listAssistants();
 
     res.status(200).json({
       success: true,
@@ -43,7 +43,7 @@ exports.getAssistantById = async (req, res) => {
       });
     }
 
-    const assistant = await vapiAssistantsService.getAssistantById(assistantId);
+    const assistant = await vapiService.getAssistantById(assistantId);
 
     res.status(200).json({
       success: true,
@@ -83,7 +83,7 @@ exports.deleteAssistantById = async (req, res) => {
       });
     }
 
-    await vapiAssistantsService.deleteAssistantById(assistantId);
+    await vapiService.deleteAssistantById(assistantId);
 
     res.status(200).json({
       success: true,
@@ -126,7 +126,7 @@ exports.saveCallId = async (req, res) => {
       });
     }
 
-    await vapiAssistantsService.saveCallStart(callId, userId);
+    await vapiService.saveCallStart(callId, userId);
 
     res.status(200).json({
       success: true,
@@ -153,7 +153,7 @@ exports.setCallUnderEvaluation = async (req, res) => {
       });
     }
 
-    const updatedCall = await vapiAssistantsService.updateCallStatusToUnderEvaluation(callId, userId);
+    const updatedCall = await vapiService.updateCallStatusToUnderEvaluation(callId, userId);
 
     res.status(200).json({
       success: true,
@@ -180,7 +180,7 @@ exports.storeCallReport = async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'data is required' });
   try {
-    await vapiAssistantsService.updateCallEndReport(message); 
+    await vapiService.updateCallEndReport(message); 
 
     res.status(200).json({
       success: true,
@@ -190,6 +190,61 @@ exports.storeCallReport = async (req, res) => {
     let statusCode = error.message.includes('not found') ? 404 : 500;
     
     res.status(statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.fetchCallLogs = async (req, res) => {
+  try {
+    const userId = req.user._id; 
+    
+    const { pageNumber, pageSize } = req.body; 
+
+    if (!userId) {
+      return res.status(401).json({
+          success: false,
+          message: 'User ID is missing. Authentication required.',
+      });
+    }
+
+    const finalPageNumber = parseInt(pageNumber) || 1;
+    const finalPageSize = parseInt(pageSize) || 10;
+    
+    if (finalPageNumber < 1) {
+       return res.status(400).json({ success: false, message: 'pageNumber must be 1 or greater.' });
+    }
+    
+    if (finalPageSize < 1 || finalPageSize > 50) {
+      return res.status(400).json({
+        success: false,
+        message: 'pageSize must be between 1 and 50.',
+      });
+    }
+
+    const result = await vapiService.getCallLogsByUserId(
+      userId, 
+      finalPageNumber, 
+      finalPageSize
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Call logs fetched successfully.',
+      data: {
+        callLogs: result.callLogs,
+        pagination: {
+          pageNumber: result.pageNumber,
+          pageSize: result.pageSize,
+          totalCount: result.totalCount,
+          totalPages: result.totalPages,
+        }
+      }
+    });
+  } catch (error) {
+    logger.error(`Fetch Call Logs Controller error: ${error.message}`);
+    res.status(500).json({
       success: false,
       message: error.message,
     });

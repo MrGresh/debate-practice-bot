@@ -40,4 +40,12 @@ export class DashboardService {
       { headers: getAuthHeaders(token) }
     );
   }
+
+  fetchCallLogs(token: string, pageNumber: number, pageSize: number): Observable<ApiResInterfaces.FetchCallLogsResponse> {
+    return this.http.post<ApiResInterfaces.FetchCallLogsResponse>(
+      API_CONSTANTS.VAPI_FETCH_CALL_LOGS,
+      { pageNumber, pageSize },
+      { headers: getAuthHeaders(token) }
+    );
+  }
 }

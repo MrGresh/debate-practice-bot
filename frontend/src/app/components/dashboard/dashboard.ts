@@ -15,7 +15,7 @@ import { getToken, removeToken } from '../../utils';
   styleUrl: './dashboard.css',
 })
 
-export class Dashboard implements OnInit, OnDestroy {
+export class Dashboard {
   private authService = inject(AuthService);
   private dashboardService = inject(DashboardService);
   private router = inject(Router);
@@ -23,32 +23,65 @@ export class Dashboard implements OnInit, OnDestroy {
   private vapiService = inject(VapiService);
 
   userProfile: ApiResInterfaces.User | null = null;
-  vapiAssistants: ApiResInterfaces.VapiAssistant[] = [];
+  vapiAssistants: ApiResInterfaces.VapiAssistantResponseData[] = [];
   
   isLoading: boolean = false;
   isAssistantsLoading: boolean = false;
   
   activeTab: 'assistants' | 'callHistory' = 'assistants';
 
-  // NEW VAPI PROPERTIES
-  callState: VapiInterfaces.CallState | null = null;
+    callState: VapiInterfaces.CallState | null = null;
   private callStateSubscription: Subscription = new Subscription();
   
   get isCallDialogOpen(): boolean {
     return this.callState ? (this.callState.isActive || this.callState.isConnecting) : false;
   }
-  // END NEW VAPI PROPERTIES
+  
+  callLogsResponse: ApiResInterfaces.FetchCallLogsResponseData | null = null; 
+  isCallLogsLoading: boolean = false;
 
   ngOnInit(): void {
     this.loadUserProfile();
     if (this.activeTab === 'assistants') {
       this.loadVapiAssistants();
     }
+    this.loadCallLogs();
     this.subscribeToCallState();
   }
   
   ngOnDestroy(): void {
     this.callStateSubscription.unsubscribe();
+  }
+
+  loadCallLogs(pageNumber: number = 1, pageSize: number = 10): void {
+    const token = getToken();
+
+    if (!token) {
+      this.toastr.warning('Authentication token missing. Please log in.', 'Session Expired');
+      this.router.navigate(['/login']);
+      return;
+    }
+    
+    this.isCallLogsLoading = true;
+
+    this.dashboardService.fetchCallLogs(token, pageNumber, pageSize).pipe(
+      catchError((err) => {
+        const message = err.error?.message || 'Failed to fetch call logs.';
+        this.toastr.error(message, 'Call History Error');
+        this.isCallLogsLoading = false;
+        return [];
+      })
+    ).subscribe((response: ApiResInterfaces.FetchCallLogsResponse) => {
+      this.isCallLogsLoading = false;
+      if (response.success && response.data) {
+        this.callLogsResponse = response.data;
+        console.log('Fetched Call Logs Response:', this.callLogsResponse);
+        this.toastr.info(`Loaded ${response.data.callLogs.length} call logs. Total: ${response.data.pagination.totalCount}`, 'Call History Ready');
+      } else {
+        const message = response.message || 'Failed to fetch call logs.';
+        this.toastr.error(message, 'Call History Error');
+      }
+    });
   }
 
   subscribeToCallState(): void {

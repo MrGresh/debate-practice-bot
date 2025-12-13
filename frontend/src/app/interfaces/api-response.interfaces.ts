@@ -31,7 +31,7 @@ export interface ValidateTokenResponseData {
   user: User;
 }
 
-export interface VapiAssistant {
+export interface VapiAssistantResponseData {
   id: string;
   orgId: string;
   name: string;
@@ -60,6 +60,46 @@ export interface VapiAssistant {
   isServerUrlSecretSet: boolean;
 }
 
+export interface FetchCallLogsResponseData {
+  callLogs: {
+    callId: string;
+    userId: string;
+    recordingUrl: string;
+    cost: number;
+    durationMinutes: number;
+    summary: string;
+    transcript: {
+      role: string;
+      message: string;
+      time: number;
+      endTime: number;
+    }[];
+    call_report: {
+      coherence_score: number;
+      overall_debate_score: number;
+      argument_clarity_score: number;
+      evidence_quality_score: number;
+      emotional_tone_evaluation: string;
+      pacing_evaluation: string;
+      primary_strength: string;
+      primary_weakness: string;
+      fallacies: {
+        list: string[];
+        count: number;
+      };
+    };
+    startedAt: string;
+    endedAt: string;
+    status: string;
+  }[],
+  pagination: {
+    pageNumber: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+  }
+}
+
 export type GenericResponse = BaseResponse;
 export type RegisterResponse = BaseResponse<RegisterResponseData>;
 export type LoginResponse = BaseResponse<LoginResponseData>;
@@ -67,4 +107,5 @@ export type ValidateTokenResponse = BaseResponse<ValidateTokenResponseData>;
 export type UserProfileResponse = BaseResponse<User>;
 export type ForgotPasswordSendOtpResponse = BaseResponse<ForgotPasswordSendOtpResponseData>;
 export type ForgotPasswordResetResponse = BaseResponse<ForgotPasswordResetResponseData>;
-export type VapiAssistantsListResponse = BaseResponse<VapiAssistant[]>;
+export type VapiAssistantsListResponse = BaseResponse<VapiAssistantResponseData[]>;
+export type FetchCallLogsResponse = BaseResponse<FetchCallLogsResponseData>;

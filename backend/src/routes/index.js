@@ -5,7 +5,7 @@ const { apiLimiter, protect } = require("../middlewares");
 
 const authRoutes = require("./user-auth.routes");
 const adminRoutes = require("./admin-auth.routes");
-const vapiAssistantsRoutes = require("./vapi-assistants.routes");
+const vapiAssistantsRoutes = require("./vapi.routes");
 
 router.use(apiLimiter);
 

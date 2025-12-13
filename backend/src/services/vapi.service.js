@@ -184,3 +184,28 @@ exports.updateCallEndReport = async (callData) => {
     throw new Error(`Database error during report update: ${error.message}`);
   }
 };
+
+exports.getCallLogsByUserId = async (userId, pageNumber = 1, pageSize = 10) => {
+  try {
+    const skip = (pageNumber - 1) * pageSize;
+    
+    const totalCount = await CallLog.countDocuments({ userId });
+
+    const callLogs = await CallLog.find({ userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize)
+      .lean();
+
+    return {
+      callLogs,
+      totalCount,
+      pageNumber: parseInt(pageNumber),
+      pageSize: parseInt(pageSize),
+      totalPages: Math.ceil(totalCount / pageSize),
+    };
+  } catch (error) {
+    logger.error(`Error fetching call logs for User ID ${userId}: ${error.message}`);
+    throw new Error(`Database error fetching call logs: ${error.message}`);
+  }
+};
