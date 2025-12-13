@@ -25,9 +25,17 @@ export class DashboardService {
     );
   }
 
-  saveVapiCallId(token: string, callId: string): Observable<ApiResInterfaces.SaveCallIdResponse> {
-    return this.http.post<ApiResInterfaces.SaveCallIdResponse>(
+  saveVapiCallId(token: string, callId: string): Observable<ApiResInterfaces.GenericResponse> {
+    return this.http.post<ApiResInterfaces.GenericResponse>(
       API_CONSTANTS.VAPI_SAVE_CALL_ID,
+      { callId },
+      { headers: getAuthHeaders(token) }
+    );
+  }
+
+  setCallUnderEvaluation(token: string, callId: string): Observable<ApiResInterfaces.GenericResponse> {
+    return this.http.post<ApiResInterfaces.GenericResponse>(
+      API_CONSTANTS.VAPI_SET_CALL_UNDER_EVALUATION,
       { callId },
       { headers: getAuthHeaders(token) }
     );

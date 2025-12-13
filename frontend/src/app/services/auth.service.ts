@@ -17,15 +17,15 @@ export class AuthService {
     return this.http.post<ApiResInterfaces.RegisterResponse>(API_CONSTANTS.USER_REGISTER, payload);
   }
 
-  verifyOtp(payload: ApiReqInterfaces.VerifyOtpRequest): Observable<ApiResInterfaces.VerifyOtpResponse> {
-    return this.http.post<ApiResInterfaces.VerifyOtpResponse>(
+  verifyOtp(payload: ApiReqInterfaces.VerifyOtpRequest): Observable<ApiResInterfaces.GenericResponse> {
+    return this.http.post<ApiResInterfaces.GenericResponse>(
       API_CONSTANTS.USER_VERIFY_OTP,
       payload
     );
   }
 
-  resendOtp(payload: ApiReqInterfaces.ResendOtpRequest): Observable<ApiResInterfaces.ResendOtpResponse> {
-    return this.http.post<ApiResInterfaces.ResendOtpResponse>(
+  resendOtp(payload: ApiReqInterfaces.ResendOtpRequest): Observable<ApiResInterfaces.GenericResponse> {
+    return this.http.post<ApiResInterfaces.GenericResponse>(
       API_CONSTANTS.USER_RESEND_OTP,
       payload
     );
@@ -62,8 +62,8 @@ export class AuthService {
     );
   }
 
-  logout(token: string): Observable<ApiResInterfaces.LogoutResponse> {
-    return this.http.post<ApiResInterfaces.LogoutResponse>(
+  logout(token: string): Observable<ApiResInterfaces.GenericResponse> {
+    return this.http.post<ApiResInterfaces.GenericResponse>(
       API_CONSTANTS.USER_LOGOUT,
       {},
       { headers: getAuthHeaders(token) }

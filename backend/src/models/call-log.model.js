@@ -6,6 +6,11 @@ const callLogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User', 
+      required: true,
+    },
     recordingUrl: {
       type: String,
       required: false,
@@ -96,10 +101,11 @@ const callLogSchema = new mongoose.Schema(
       required: false, 
       default: null 
     },
-    isCallCompleted: {
-      type: Boolean,
+    status: {
+      type: String,
       required: true,
-      default: false
+      enum: ['STARTED', 'UNDER_EVALUATION', 'EVALUATED'],
+      default: 'STARTED',
     },
   },
   {

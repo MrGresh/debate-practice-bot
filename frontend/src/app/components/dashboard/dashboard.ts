@@ -69,7 +69,14 @@ export class Dashboard implements OnInit, OnDestroy {
   }
   
   endVapiCall(): void {
-    this.vapiService.endCall();
+    const token = getToken();
+
+    if (!token) {
+      this.toastr.warning('Authentication token missing. Please log in.', 'Session Expired');
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.vapiService.endCall(token);
   }
 
   loadUserProfile(): void {

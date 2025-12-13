@@ -60,14 +60,11 @@ export interface VapiAssistant {
   isServerUrlSecretSet: boolean;
 }
 
+export type GenericResponse = BaseResponse;
 export type RegisterResponse = BaseResponse<RegisterResponseData>;
-export type VerifyOtpResponse = BaseResponse;
-export type ResendOtpResponse = BaseResponse;
 export type LoginResponse = BaseResponse<LoginResponseData>;
-export type LogoutResponse = BaseResponse;
 export type ValidateTokenResponse = BaseResponse<ValidateTokenResponseData>;
 export type UserProfileResponse = BaseResponse<User>;
 export type ForgotPasswordSendOtpResponse = BaseResponse<ForgotPasswordSendOtpResponseData>;
 export type ForgotPasswordResetResponse = BaseResponse<ForgotPasswordResetResponseData>;
 export type VapiAssistantsListResponse = BaseResponse<VapiAssistant[]>;
-export type SaveCallIdResponse = BaseResponse;

@@ -103,15 +103,35 @@ exports.deleteAssistantById = async (assistantId) => {
   }
 };
 
-exports.saveCallStart = async (callId) => {
+exports.saveCallStart = async (callId, userId) => {
   try {
-    const newCall = await CallLog.create({ callId });
+    const newCall = await CallLog.create({ callId, userId });
     return newCall;
   } catch (error) {
     logger.error(
       `Error saving call start for Call ID ${callId}: ${error.message}`
     );
     throw new Error(`Database error during call start: ${error.message}`);
+  }
+};
+
+exports.updateCallStatusToUnderEvaluation = async (callId, userId) => {
+  try {
+    const updatedCall = await CallLog.findOneAndUpdate(
+      { callId, userId },
+      { $set: { status: 'UNDER_EVALUATION' } },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedCall) {
+      logger.warn(`Call ID ${callId} not found for status update.`);
+      throw new Error(`Call log for ID ${callId} not found. Cannot update status.`);
+    }
+
+    return updatedCall;
+  } catch (error) {
+    logger.error(`Error updating call status for Call ID ${callId}: ${error.message}`);
+    throw new Error(`Database error during status update: ${error.message}`);
   }
 };
 
@@ -137,7 +157,7 @@ exports.updateCallEndReport = async (callData) => {
     call_report: structuredReport,
     startedAt: callData.startedAt ? new Date(callData.startedAt) : null,
     endedAt: callData.endedAt ? new Date(callData.endedAt) : null,
-    isCallCompleted: true
+    status: 'EVALUATED'
   };
 
   if (!updateData.call_report) {

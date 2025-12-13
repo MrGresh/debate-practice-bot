@@ -95,12 +95,12 @@ export class VapiService {
         });
         this.dashboardService.saveVapiCallId(token, res.id).subscribe({
           next: () => {
-            this.toastr.success('Call ID successfully logged.', 'Server Acknowledged');
+            this.toastr.success('Call ID logged successfully.', 'Server Acknowledged');
           },
           error: (e) => {
-            console.error('Failed to save Vapi Call ID:', e);
-            this.toastr.error('Failed to log call ID on server.', 'Server Error');
-          },
+            console.error('Failed to log call ID on server:', e);
+            this.toastr.error('Server failed to log call ID.', 'Error');
+          }
         });
       }
     } catch (e) {
@@ -110,11 +110,22 @@ export class VapiService {
     }
   }
 
-  endCall(): void {
+  endCall(token: string): void {
     const currentState = this.callStateSubject.getValue();
 
     if (currentState.isActive || currentState.isConnecting) {
       this.vapi.stop();
+      if (currentState.callId) {
+        this.dashboardService.setCallUnderEvaluation(token, currentState.callId).subscribe({
+          next: () => {
+            this.toastr.success('Call status updated for evaluation.', 'Server Acknowledged');
+          },
+          error: (e) => {
+            console.error('Failed to update call status:', e);
+            this.toastr.error('Failed to log call end on server.', 'Server Error');
+          }
+        });
+      }
       this.toastr.info('Stopping call...', 'Ending');
     } else {
       this.toastr.warning('No active call to stop.', 'Info');

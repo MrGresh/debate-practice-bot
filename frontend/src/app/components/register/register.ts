@@ -157,7 +157,7 @@ export class Register implements OnDestroy {
           this.isLoading = false;
           return [];
         })
-    ).subscribe((response: ApiResInterfaces.VerifyOtpResponse) => {
+    ).subscribe((response: ApiResInterfaces.GenericResponse) => {
         this.isLoading = false;
         if (response.success) {
             this.stopTimer();
@@ -188,7 +188,7 @@ export class Register implements OnDestroy {
         this.isLoading = false;
         return [];
       })
-    ).subscribe((response: ApiResInterfaces.ResendOtpResponse) => {
+    ).subscribe((response: ApiResInterfaces.GenericResponse) => {
         this.isLoading = false;
       if (response.success) {
         this.toastr.success(response.message || 'New OTP sent. Check your email.', 'OTP Sent');

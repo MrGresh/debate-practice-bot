@@ -11,6 +11,7 @@ protectedRouter.get("/:id", vapiAssistantsController.getAssistantById);
 protectedRouter.delete("/:id", vapiAssistantsController.deleteAssistantById);
 
 protectedRouter.post("/save-call-id", vapiAssistantsController.saveCallId);
+protectedRouter.post("/set-call-under-evaluation", vapiAssistantsController.setCallUnderEvaluation);
 
 module.exports = {
   protectedRoutes: protectedRouter,

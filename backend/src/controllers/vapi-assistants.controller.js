@@ -116,6 +116,7 @@ exports.deleteAssistantById = async (req, res) => {
 
 exports.saveCallId = async (req, res) => {
   try {
+    const userId = req.user._id;
     const { callId } = req.body;
 
     if (!callId) {
@@ -125,7 +126,7 @@ exports.saveCallId = async (req, res) => {
       });
     }
 
-    await vapiAssistantsService.saveCallStart(callId);
+    await vapiAssistantsService.saveCallStart(callId, userId);
 
     res.status(200).json({
       success: true,
@@ -134,6 +135,34 @@ exports.saveCallId = async (req, res) => {
   } catch (error) {
     let statusCode = error.message.includes('already exists') ? 409 : 500; 
 
+    res.status(statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.setCallUnderEvaluation = async (req, res) => {
+  try {
+    const { callId } = req.body;
+    const userId = req.user._id;
+    if (!callId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing Call ID parameter.',
+      });
+    }
+
+    const updatedCall = await vapiAssistantsService.updateCallStatusToUnderEvaluation(callId, userId);
+
+    res.status(200).json({
+      success: true,
+      message: `Call log status for ID ${callId} updated to UNDER_EVALUATION.`,
+    });
+  } catch (error) {
+    logger.error(`Set Call Under Evaluation Controller error: ${error.message}`);
+    let statusCode = error.message.includes('not found') ? 404 : 500;
+    
     res.status(statusCode).json({
       success: false,
       message: error.message,
