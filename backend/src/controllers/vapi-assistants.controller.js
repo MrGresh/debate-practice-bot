@@ -1,4 +1,5 @@
 const { vapiAssistantsService } = require("../services");
+const { VAPI_CONFIG } = require("../constants");
 const { getLogger } = require("../utils");
 const logger = getLogger(module);
 
@@ -106,6 +107,59 @@ exports.deleteAssistantById = async (req, res) => {
       statusCode = 401;
     }
 
+    res.status(statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.saveCallId = async (req, res) => {
+  try {
+    const { callId } = req.body;
+
+    if (!callId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing Call ID in webhook body.',
+      });
+    }
+
+    await vapiAssistantsService.saveCallStart(callId);
+
+    res.status(200).json({
+      success: true,
+      message: `Call log started for Call ID: ${callId}`,
+    });
+  } catch (error) {
+    let statusCode = error.message.includes('already exists') ? 409 : 500; 
+
+    res.status(statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.storeCallReport = async (req, res) => {
+  const receivedPasskey = req.headers['vapi-passkey'];
+  const VAPI_PASSKEY = VAPI_CONFIG.VAPI_PASSKEY;
+  if (receivedPasskey != VAPI_PASSKEY) {
+    logger.warn('Unauthorized access attempt: Invalid or missing vapi-passkey');
+    return res.status(401).json({ error: 'Unauthorized: Invalid VAPI Passkey' });
+  }
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ error: 'data is required' });
+  try {
+    await vapiAssistantsService.updateCallEndReport(message); 
+
+    res.status(200).json({
+      success: true,
+      message: `Call report for ID ${message?.call?.id} stored successfully.`,
+    });
+  } catch (error) {
+    let statusCode = error.message.includes('not found') ? 404 : 500;
+    
     res.status(statusCode).json({
       success: false,
       message: error.message,

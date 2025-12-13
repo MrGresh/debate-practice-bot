@@ -5,6 +5,7 @@ const VAPI_CONFIG = {
   },
   VAPI_PUBLIC_KEY: process.env.VAPI_PUBLIC_KEY,
   VAPI_BASE_URL: "https://api.vapi.ai/",
+  VAPI_PASSKEY: process.env.VAPI_PASSKEY
 };
 
 module.exports = {

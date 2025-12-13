@@ -31,11 +31,43 @@ export interface ValidateTokenResponseData {
   user: User;
 }
 
+export interface VapiAssistant {
+  id: string;
+  orgId: string;
+  name: string;
+  voice: {
+    voiceId: string;
+    provider: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  model: {
+    model: string;
+    messages: {
+      role: string
+      content: string;
+    }[];
+    provider: string;
+  };
+  firstMessage: string;
+  voicemailMessage: string;
+  endCallMessage: string;
+  transcriber: {
+    model: string;
+    language: string;
+    provider: string;
+  };
+  isServerUrlSecretSet: boolean;
+}
+
 export type RegisterResponse = BaseResponse<RegisterResponseData>;
 export type VerifyOtpResponse = BaseResponse;
 export type ResendOtpResponse = BaseResponse;
 export type LoginResponse = BaseResponse<LoginResponseData>;
 export type LogoutResponse = BaseResponse;
 export type ValidateTokenResponse = BaseResponse<ValidateTokenResponseData>;
+export type UserProfileResponse = BaseResponse<User>;
 export type ForgotPasswordSendOtpResponse = BaseResponse<ForgotPasswordSendOtpResponseData>;
 export type ForgotPasswordResetResponse = BaseResponse<ForgotPasswordResetResponseData>;
+export type VapiAssistantsListResponse = BaseResponse<VapiAssistant[]>;
+export type SaveCallIdResponse = BaseResponse;

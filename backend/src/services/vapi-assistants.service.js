@@ -1,4 +1,5 @@
 const { VAPI_CONFIG } = require("../constants");
+const { CallLog } = require("../models");
 const { getLogger } = require("../utils");
 const logger = getLogger(module);
 
@@ -99,5 +100,67 @@ exports.deleteAssistantById = async (assistantId) => {
   } catch (error) {
     logger.error(`Error deleting Vapi assistant: ${error.message}`);
     throw new Error(`Vapi API call failed: ${error.message}`);
+  }
+};
+
+exports.saveCallStart = async (callId) => {
+  try {
+    const newCall = await CallLog.create({ callId });
+    return newCall;
+  } catch (error) {
+    logger.error(
+      `Error saving call start for Call ID ${callId}: ${error.message}`
+    );
+    throw new Error(`Database error during call start: ${error.message}`);
+  }
+};
+
+exports.updateCallEndReport = async (callData) => {
+  const callId = callData.call?.id;
+
+  const structuredOutputs = callData.artifact?.structuredOutputs;
+  let structuredReport = null;
+
+  if (structuredOutputs) {
+    const outputKey = Object.keys(structuredOutputs)[0];
+    if (outputKey) {
+      structuredReport = structuredOutputs[outputKey].result;
+    }
+  }
+
+  const updateData = {
+    recordingUrl: callData.recordingUrl || null,
+    cost: callData.cost || null,
+    durationMinutes: callData.durationMinutes || null,
+    summary: callData.summary || null,
+    transcript: callData.artifact?.messages,
+    call_report: structuredReport,
+    startedAt: callData.startedAt ? new Date(callData.startedAt) : null,
+    endedAt: callData.endedAt ? new Date(callData.endedAt) : null,
+    isCallCompleted: true
+  };
+
+  if (!updateData.call_report) {
+    logger.warn(`Structured report data is missing for Call ID: ${callId}`);
+  }
+
+  try {
+    const updatedCall = await CallLog.findOneAndUpdate(
+      { callId: callId },
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedCall) {
+      logger.warn(`Call ID ${callId} not found for report update.`);
+      throw new Error(`Call log for ID ${callId} not found. Cannot update.`);
+    }
+
+    return updatedCall;
+  } catch (error) {
+    logger.error(
+      `Error updating call report for Call ID ${callId}: ${error.message}`
+    );
+    throw new Error(`Database error during report update: ${error.message}`);
   }
 };

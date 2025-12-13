@@ -6,7 +6,7 @@ import { AuthService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResInterfaces } from '../../interfaces';
 import { catchError } from 'rxjs';
-import { setToken } from '../../utils';
+import { getToken, setToken } from '../../utils';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +31,35 @@ export class Login {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  ngOnInit(): void{
+    this._checkExistingSession();
+  }
+
+  private _checkExistingSession(): void {
+    const token = getToken();
+
+    if (token) {
+      this.isLoading = true;
+      this.authService.validateToken(token).pipe(
+        catchError((err) => {
+          const message = err.error?.message || 'Session expired or invalid. Please log in again.';
+          this.toastr.warning(message, 'Session Check');
+          this.isLoading = false;
+          return [];
+        })
+      ).subscribe((response: ApiResInterfaces.ValidateTokenResponse) => {
+        this.isLoading = false;
+        if (response.success && response.data?.user) {
+          this.toastr.info('You are already logged in. Redirecting to dashboard.', 'Session Active');
+          this.router.navigate(['/dashboard']);
+        } else {
+          const message = response.message || 'Session check failed. Please log in.';
+          this.toastr.warning(message, 'Session Check');
+        }
+      });
+    }
   }
 
   get f() {

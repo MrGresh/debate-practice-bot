@@ -10,4 +10,26 @@ import { getAuthHeaders } from '../utils';
 })
 export class DashboardService {
   constructor(private http: HttpClient) {}
+
+  getProfile(token: string): Observable<ApiResInterfaces.UserProfileResponse> {
+    return this.http.get<ApiResInterfaces.UserProfileResponse>(
+      API_CONSTANTS.GET_USER,
+      { headers: getAuthHeaders(token) }
+    );
+  }
+
+  getVapiAssistants(token: string): Observable<ApiResInterfaces.VapiAssistantsListResponse> {
+    return this.http.get<ApiResInterfaces.VapiAssistantsListResponse>(
+      API_CONSTANTS.VAPI_ASSISTANTS,
+      { headers: getAuthHeaders(token) }
+    );
+  }
+
+  saveVapiCallId(token: string, callId: string): Observable<ApiResInterfaces.SaveCallIdResponse> {
+    return this.http.post<ApiResInterfaces.SaveCallIdResponse>(
+      API_CONSTANTS.VAPI_SAVE_CALL_ID,
+      { callId },
+      { headers: getAuthHeaders(token) }
+    );
+  }
 }
