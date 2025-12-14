@@ -1,0 +1,113 @@
+<div class="dialog-card">
+  <div class="dialog-header">
+    <h2>Call Log Details ({{ callLog?.callId | slice:0:8 }}...)</h2>
+    <button (click)="close.emit()" class="close-button">×</button>
+  </div>
+
+  <div class="tabs-nav-dialog">
+    <button 
+      [ngClass]="{'active-tab': activeTab === 'metaData'}" 
+      (click)="setActiveTab('metaData')">
+      Metadata
+    </button>
+    <button 
+      [ngClass]="{'active-tab': activeTab === 'callReport'}" 
+      (click)="setActiveTab('callReport')"
+      [disabled]="!callReport">
+      Call Report
+    </button>
+    <button 
+      [ngClass]="{'active-tab': activeTab === 'transcript'}" 
+      (click)="setActiveTab('transcript')"
+      [disabled]="!transcript || transcript.length === 0">
+      Transcript
+    </button>
+  </div>
+
+  <div *ngIf="activeTab === 'metaData'" class="tab-content-dialog">
+    <div class="data-grid">
+      <div class="data-item"><span class="label">Call ID:</span> <span>{{ callLog?.callId }}</span></div>
+      <div class="data-item"><span class="label">Status:</span> 
+        <span class="status-chip"
+          [ngClass]="{
+            'status-started': callLog?.status === 'STARTED',
+            'status-evaluation': callLog?.status === 'UNDER_EVALUATION',
+            'status-evaluated': callLog?.status === 'EVALUATED'
+          }">
+          {{ callLog?.status }}
+        </span>
+      </div>
+      <div class="data-item"><span class="label">Started At:</span> <span>{{ callLog?.startedAt | date:'medium' }}</span></div>
+      <div class="data-item"><span class="label">Ended At:</span> <span>{{ callLog?.endedAt | date:'medium' }}</span></div>
+      <div class="data-item"><span class="label">Duration:</span> <span>{{ callLog?.durationMinutes }} minutes</span></div>
+      <div class="data-item"><span class="label">Cost:</span> <span>${{ callLog?.cost | number:'1.2-2' }}</span></div>
+      <div class="data-item full-row"><span class="label">Recording URL:</span> 
+        <a *ngIf="callLog?.recordingUrl" [href]="callLog?.recordingUrl" target="_blank">Listen</a>
+        <span *ngIf="!callLog?.recordingUrl">N/A</span>
+      </div>
+      <div class="data-item full-row"><span class="label">Summary:</span> <p>{{ callLog?.summary || 'No summary available.' }}</p></div>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'callReport'" class="tab-content-dialog">
+    <div *ngIf="callReport" class="report-section">
+      <h3>Key Scores</h3>
+      <div class="data-grid score-grid">
+        <div class="data-item"><span class="label">Coherence Score:</span> <span>{{ callReport.coherence_score }}</span></div>
+        <div class="data-item"><span class="label">Overall Score:</span> <span>{{ callReport.overall_debate_score }}</span></div>
+        <div class="data-item"><span class="label">Argument Clarity:</span> <span>{{ callReport.argument_clarity_score }}</span></div>
+        <div class="data-item"><span class="label">Evidence Quality:</span> <span>{{ callReport.evidence_quality_score }}</span></div>
+      </div>
+
+      <h3>Evaluations</h3>
+      <div class="evaluation-item">
+        <span class="label">Emotional Tone:</span> <span>{{ callReport.emotional_tone_evaluation || 'N/A' }}</span>
+      </div>
+      <div class="evaluation-item">
+        <span class="label">Pacing:</span> <span>{{ callReport.pacing_evaluation || 'N/A' }}</span>
+      </div>
+      
+      <h3>Strengths & Weaknesses</h3>
+      <div class="evaluation-item">
+        <span class="label">Primary Strength:</span> <p>{{ callReport.primary_strength || 'N/A' }}</p>
+      </div>
+      <div class="evaluation-item">
+        <span class="label">Primary Weakness:</span> <p>{{ callReport.primary_weakness || 'N/A' }}</p>
+      </div>
+
+      <h3 *ngIf="callReport.fallacies && callReport.fallacies.count! > 0">
+        Fallacies ({{ callReport.fallacies.count }})
+      </h3>
+      <ul *ngIf="callReport.fallacies && callReport.fallacies.count! > 0" class="fallacy-list">
+        <li *ngFor="let fallacy of callReport.fallacies.list">{{ fallacy }}</li>
+      </ul>
+
+    </div>
+    <div *ngIf="!callReport" class="empty-state">
+      <p>Call report is not available for this log.</p>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'transcript'" class="tab-content-dialog">
+    <div *ngIf="transcript && transcript.length > 0" class="transcript-list">
+      <div 
+        *ngFor="let entry of filteredTranscript" 
+        class="transcript-entry" 
+        [ngClass]="{'user-message': entry.role === 'user', 'assistant-message': entry.role === 'assistant'}">
+        <div class="message-header">
+          <span class="role">{{ entry.role=='user' ? 'You' : 'AI' }}:</span>
+          <span class="time">
+            ({{ formatTime(entry.time) }} - {{ formatTime(entry.endTime) }})
+            <span class="duration-chip">
+                {{ getDurationSeconds(entry.endTime, entry.time) }}s
+            </span>
+          </span>
+        </div>
+        <p class="message-content">{{ entry.message }}</p>
+      </div>
+    </div>
+    <div *ngIf="!transcript || transcript.length === 0" class="empty-state">
+      <p>Transcript is not available for this call.</p>
+    </div>
+  </div>
+</div>

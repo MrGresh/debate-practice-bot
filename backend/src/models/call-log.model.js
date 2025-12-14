@@ -104,7 +104,7 @@ const callLogSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ['STARTED', 'UNDER_EVALUATION', 'EVALUATED'],
+      enum: ['STARTED', 'EVALUATING', 'EVALUATED'],
       default: 'STARTED',
     },
   },

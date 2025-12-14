@@ -44,7 +44,7 @@ export interface VapiAssistantResponseData {
   model: {
     model: string;
     messages: {
-      role: string
+      role: string;
       content: string;
     }[];
     provider: string;
@@ -60,45 +60,51 @@ export interface VapiAssistantResponseData {
   isServerUrlSecretSet: boolean;
 }
 
+export interface CallReport {
+  coherence_score: number;
+  overall_debate_score: number;
+  argument_clarity_score: number;
+  evidence_quality_score: number;
+  emotional_tone_evaluation: string;
+  pacing_evaluation: string;
+  primary_strength: string;
+  primary_weakness: string;
+  fallacies: {
+    list: string[];
+    count: number;
+  };
+}
+
+export interface TranscriptEntry {
+  role: string;
+  message: string;
+  time: number;
+  endTime: number;
+}
+
+export interface CallLog {
+  callId: string;
+  userId: string;
+  recordingUrl: string;
+  cost: number;
+  durationMinutes: number;
+  summary: string;
+  transcript: TranscriptEntry[];
+  call_report: CallReport;
+  createdAt: string;
+  startedAt: string;
+  endedAt: string;
+  status: string;
+}
+
 export interface FetchCallLogsResponseData {
-  callLogs: {
-    callId: string;
-    userId: string;
-    recordingUrl: string;
-    cost: number;
-    durationMinutes: number;
-    summary: string;
-    transcript: {
-      role: string;
-      message: string;
-      time: number;
-      endTime: number;
-    }[];
-    call_report: {
-      coherence_score: number;
-      overall_debate_score: number;
-      argument_clarity_score: number;
-      evidence_quality_score: number;
-      emotional_tone_evaluation: string;
-      pacing_evaluation: string;
-      primary_strength: string;
-      primary_weakness: string;
-      fallacies: {
-        list: string[];
-        count: number;
-      };
-    };
-    createdAt: string;
-    startedAt: string;
-    endedAt: string;
-    status: string;
-  }[],
+  callLogs: CallLog[];
   pagination: {
     pageNumber: number;
     pageSize: number;
     totalCount: number;
     totalPages: number;
-  }
+  };
 }
 
 export type GenericResponse = BaseResponse;

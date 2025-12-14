@@ -1,0 +1,234 @@
+/* Dialog/Modal Styling */
+.dialog-card {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.dialog-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+
+.dialog-header h2 {
+    margin: 0;
+    color: #34495e;
+    font-size: 1.5em;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #95a5a6;
+    padding: 5px 10px;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: #e74c3c;
+}
+
+/* Tabs Styling */
+.tabs-nav-dialog {
+    display: flex;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.tabs-nav-dialog button {
+    flex-grow: 1;
+    padding: 15px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #7f8c8d;
+    transition: color 0.2s, border-bottom 0.2s;
+}
+
+.tabs-nav-dialog button:hover:not(:disabled) {
+    color: #3498db;
+}
+
+.tabs-nav-dialog button.active-tab {
+    color: #3498db;
+    border-bottom: 3px solid #3498db;
+}
+
+.tabs-nav-dialog button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+/* Tab Content Styling */
+.tab-content-dialog {
+    padding: 25px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* Metadata Grid */
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 15px;
+}
+
+.data-item {
+    padding: 10px;
+    border-bottom: 1px dashed #eee;
+    word-break: break-word;
+}
+
+.data-item .label {
+    font-weight: 600;
+    color: #34495e;
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.9em;
+}
+
+.data-item.full-row {
+    grid-column: 1 / -1;
+}
+
+/* Call Report Styling */
+.report-section h3 {
+    color: #34495e;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.report-section .label {
+    font-weight: 600;
+    color: #3498db;
+    display: inline-block;
+    min-width: 150px;
+}
+
+.evaluation-item {
+    margin-bottom: 10px;
+}
+
+.evaluation-item p {
+    margin: 5px 0 0 0;
+    padding-left: 10px;
+    border-left: 3px solid #ccc;
+    color: #555;
+}
+
+.score-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.fallacy-list {
+    padding-left: 20px;
+    list-style-type: disc;
+    margin-top: 10px;
+}
+
+/* Transcript Styling */
+.transcript-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.transcript-entry {
+    padding: 12px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.user-message {
+    background-color: #e0f7fa; /* Light cyan */
+    border-left: 4px solid #00bcd4;
+}
+
+.assistant-message {
+    background-color: #f0f4c3; /* Light lime */
+    border-left: 4px solid #afb42b;
+}
+
+.message-header {
+    margin-bottom: 5px;
+    font-size: 0.8em;
+}
+
+.message-header .role {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.message-header .time {
+    color: #777;
+    /* Added to separate time/duration from role */
+    margin-left: 10px; 
+}
+
+/* NEW STYLE for duration chip */
+.duration-chip {
+    display: inline-block;
+    background-color: #f0f0f0;
+    color: #34495e;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+
+.message-content {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #95a5a6;
+}
+
+/* Reusing dashboard status chip styles */
+.status-chip {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+}
+
+.status-started {
+    background-color: #f1c40f33; 
+    color: #f39c12;
+}
+
+.status-evaluation {
+    background-color: #3498db33; 
+    color: #2980b9;
+}
+
+.status-evaluated {
+    background-color: #2ecc7133; 
+    color: #27ae60;
+}

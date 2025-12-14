@@ -103,10 +103,21 @@
             <tr *ngFor="let log of callLogsResponse.callLogs; let i = index">
               <td>{{ (callLogsResponse.pagination.pageNumber! - 1) * callLogsResponse.pagination.pageSize! + i + 1 }}</td>
               <td>{{ log.callId | slice:0:8 }}...</td>
-              <td>{{ log.status }}</td>
+              <td>
+                <span 
+                  class="status-chip"
+                  [ngClass]="{
+                    'status-started': log.status === 'STARTED',
+                    'status-evaluation': log.status === 'EVALUATING',
+                    'status-evaluated': log.status === 'EVALUATED'
+                  }"
+                >
+                  {{ log.status }}
+                </span>
+                </td>
               <td>{{ log.createdAt | date:'medium' }}</td>
               <td>
-                <button class="report-details-button" [disabled]="log.status!='EVALUATED'">Details</button>
+                <button class="report-details-button" [disabled]="log.status!='EVALUATED'" (click)="openCallDetails(log)">Details</button>
               </td>
             </tr>
           </tbody>
@@ -135,4 +146,11 @@
       {{ callState?.errorMessage }}
     </div>
   </div>
+</div>
+
+<div *ngIf="isDetailsDialogOpen && selectedCallLog" class="call-dialog-backdrop">
+  <app-call-log-details-dialog 
+    [callLog]="selectedCallLog" 
+    (close)="closeCallDetails()">
+  </app-call-log-details-dialog>
 </div>

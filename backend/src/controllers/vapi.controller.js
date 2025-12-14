@@ -157,7 +157,7 @@ exports.setCallUnderEvaluation = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `Call log status for ID ${callId} updated to UNDER_EVALUATION.`,
+      message: `Call log status for ID ${callId} updated to EVALUATING.`,
     });
   } catch (error) {
     logger.error(`Set Call Under Evaluation Controller error: ${error.message}`);

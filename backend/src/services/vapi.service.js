@@ -119,7 +119,7 @@ exports.updateCallStatusToUnderEvaluation = async (callId, userId) => {
   try {
     const updatedCall = await CallLog.findOneAndUpdate(
       { callId, userId },
-      { $set: { status: 'UNDER_EVALUATION' } },
+      { $set: { status: 'EVALUATING' } },
       { new: true, runValidators: true }
     );
 

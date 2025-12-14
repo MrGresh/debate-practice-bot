@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResInterfaces, VapiInterfaces } from '../../interfaces';
+import { CallLogDetailsDialogComponent } from '../call-log-details-dialog/call-log-details-dialog';
 import { catchError, Subscription } from 'rxjs';
 import { getToken, removeToken } from '../../utils';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule, CallLogDetailsDialogComponent], 
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -39,6 +40,9 @@ export class Dashboard {
 
   callLogsResponse: ApiResInterfaces.FetchCallLogsResponseData = { callLogs: [], pagination: { pageNumber: 1, pageSize: 10, totalCount: 0, totalPages: 0 } };
   isCallLogsLoading: boolean = false;
+
+  isDetailsDialogOpen: boolean = false;
+  selectedCallLog: ApiResInterfaces.CallLog | null = null;
 
   ngOnInit(): void {
     this.loadUserProfile();
@@ -184,6 +188,16 @@ export class Dashboard {
     if (tab === 'assistants' && this.vapiAssistants.length === 0) {
       this.loadVapiAssistants();
     }
+  }
+
+  openCallDetails(log: ApiResInterfaces.CallLog): void {
+    this.selectedCallLog = log;
+    this.isDetailsDialogOpen = true;
+  }
+
+  closeCallDetails(): void {
+    this.isDetailsDialogOpen = false;
+    this.selectedCallLog = null;
   }
 
   logout(): void {
