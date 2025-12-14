@@ -6,13 +6,11 @@
     </button>
   </header>
 
-  <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-state">
     <div class="spinner"></div>
     <p>Loading your profile...</p>
   </div>
 
-  <!-- Profile Card -->
   <section *ngIf="userProfile && !isLoading" class="profile-card">
     <h2>👤 Profile Details</h2>
     <div class="profile-info">
@@ -27,12 +25,10 @@
     </div>
   </section>
 
-  <!-- Error State -->
   <div *ngIf="!userProfile && !isLoading" class="error-state">
     <p>⚠️ Could not load profile. Please try logging out and back in.</p>
   </div>
 
-  <!-- Tabs Container -->
   <div class="tabs-container">
     <nav class="tabs-nav">
       <button 
@@ -49,7 +45,6 @@
       </button>
     </nav>
 
-    <!-- Assistants Tab -->
     <section *ngIf="activeTab === 'assistants'" class="tab-content assistants-section">
       <div *ngIf="isAssistantsLoading" class="loading-state">
         <div class="spinner"></div>
@@ -86,7 +81,6 @@
       </div>
     </section>
 
-    <!-- Call History Tab -->
     <section *ngIf="activeTab === 'callHistory'" class="tab-content call-history-section">
       <div *ngIf="isCallLogsLoading" class="loading-state">
         <div class="spinner"></div>
@@ -141,7 +135,6 @@
   </div>
 </div>
 
-<!-- Call Dialog -->
 <div *ngIf="isCallDialogOpen" class="call-dialog-backdrop">
   <div class="call-dialog">
     <div class="call-status">
@@ -164,7 +157,6 @@
   </div>
 </div>
 
-<!-- Details Dialog -->
 <div *ngIf="isDetailsDialogOpen && selectedCallLog" class="call-dialog-backdrop">
   <app-call-log-details-dialog 
     [callLog]="selectedCallLog" 

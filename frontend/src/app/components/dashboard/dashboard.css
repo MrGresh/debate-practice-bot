@@ -10,7 +10,6 @@
   color: var(--text-primary);
 }
 
-/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -51,7 +50,6 @@
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
 }
 
-/* Loading & Error States */
 .loading-state, .error-state, .empty-state {
   text-align: center;
   padding: 60px 40px;
@@ -88,7 +86,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Profile Card */
 .profile-card {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
@@ -134,7 +131,6 @@
   font-weight: 500;
 }
 
-/* Tabs Navigation */
 .tabs-nav {
   display: flex;
   gap: 8px;
@@ -170,7 +166,6 @@
   box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
 
-/* Tab Content */
 .tab-content {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
@@ -187,7 +182,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Assistant Cards */
 .assistant-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -296,7 +290,6 @@
   transform: translateY(0);
 }
 
-/* Call Dialog */
 .call-dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -413,7 +406,6 @@
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
-/* Call Logs Table */
 .call-history-section h2 {
   color: var(--text-primary);
   font-size: 1.5rem;
@@ -433,7 +425,7 @@
   color: var(--text-primary);
   font-weight: 600;
   padding: 16px 20px;
-  text-align: left;
+  text-align: center;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -449,6 +441,7 @@
 }
 
 .call-logs-table td {
+  text-align: center;
   padding: 18px 20px;
   color: var(--text-secondary);
   border-bottom: 1px solid var(--glass-border);
@@ -521,7 +514,6 @@
   box-shadow: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .dashboard-container {
     padding: 20px;

@@ -24,7 +24,7 @@ export class AuthService {
     );
   }
 
-  resendOtp(payload: ApiReqInterfaces.ResendOtpRequest): Observable<ApiResInterfaces.GenericResponse> {
+  resendOtp(payload: ApiReqInterfaces.SendOtpRequest): Observable<ApiResInterfaces.GenericResponse> {
     return this.http.post<ApiResInterfaces.GenericResponse>(
       API_CONSTANTS.USER_RESEND_OTP,
       payload
@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   forgotPasswordSendOtp(
-    payload: ApiReqInterfaces.ForgotPasswordSendOtpRequest
+    payload: ApiReqInterfaces.SendOtpRequest
   ): Observable<ApiResInterfaces.ForgotPasswordSendOtpResponse> {
     return this.http.post<ApiResInterfaces.ForgotPasswordSendOtpResponse>(
       API_CONSTANTS.FORGOT_PASSWORD_SEND_OTP,

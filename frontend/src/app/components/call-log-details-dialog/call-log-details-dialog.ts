@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-// Assuming your interfaces file is here:
 import { ApiResInterfaces } from '../../interfaces'; 
 
 @Component({

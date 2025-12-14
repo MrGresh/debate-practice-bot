@@ -1,6 +1,6 @@
 <div class="dialog-card">
   <header class="dialog-header">
-    <h2>Call Log Details <code>({{ callLog?.callId | slice:0:8 }}...)</code></h2>
+    <h2>Call Details <code>({{ callLog?.callId | slice:0:8 }}...)</code></h2>
     <button (click)="close.emit()" class="close-button" aria-label="Close dialog">×</button>
   </header>
 
@@ -24,7 +24,6 @@
     </button>
   </nav>
 
-  <!-- Metadata Tab -->
   <section *ngIf="activeTab === 'metaData'" class="tab-content-dialog">
     <div class="data-grid">
       <div class="data-item">
@@ -73,7 +72,6 @@
     </div>
   </section>
 
-  <!-- Call Report Tab -->
   <section *ngIf="activeTab === 'callReport'" class="tab-content-dialog">
     <div *ngIf="callReport" class="report-section">
       <h3>Key Scores</h3>
@@ -129,7 +127,6 @@
     </div>
   </section>
 
-  <!-- Transcript Tab -->
   <section *ngIf="activeTab === 'transcript'" class="tab-content-dialog">
     <div *ngIf="transcript && transcript.length > 0" class="transcript-list">
       <article 
