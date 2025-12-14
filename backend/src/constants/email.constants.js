@@ -5,7 +5,7 @@ const EMAIL_CONFIG = {
     secure: process.env.MAIL_SECURE === "true" || true,
     auth: {
       user: process.env.MAIL_USER || 'apikey',
-      pass: process.env.MAIL_PASSWORD || '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',
+      pass: process.env.MAIL_PASSWORD,
     },
     tls: {
       rejectUnauthorized: false,
