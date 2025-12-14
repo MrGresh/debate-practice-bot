@@ -4,7 +4,7 @@ const { vapiController } = require("../controllers");
 const publicRouter = express.Router();
 const protectedRouter = express.Router();
 
-publicRouter.post("/webhoook", vapiController.storeCallReport);
+publicRouter.post("/webhook", vapiController.storeCallReport);
 
 protectedRouter.get("/list", vapiController.listAssistants);
 protectedRouter.get("/:id", vapiController.getAssistantById);

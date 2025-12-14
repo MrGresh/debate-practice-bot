@@ -44,27 +44,21 @@
     </div>
 
     <div *ngIf="activeTab === 'assistants'" class="tab-content assistants-section">
-      <h2 class="section-title">Your Vapi Assistants</h2>
-
       <div *ngIf="isAssistantsLoading" class="loading-state">
-        <p>Fetching assistant list...</p>
+        <p>Loading assistants...</p>
         <div class="spinner"></div>
       </div>
-      
       <div *ngIf="!isAssistantsLoading && vapiAssistants.length === 0" class="empty-state">
-          <p>You have no Vapi assistants yet.</p>
+        <p>No assistants found. Please check your configuration.</p>
       </div>
 
-      <div *ngIf="!isAssistantsLoading && vapiAssistants.length > 0" class="assistants-list">
+      <div *ngIf="!isAssistantsLoading && vapiAssistants.length > 0" class="assistant-list">
         <div *ngFor="let assistant of vapiAssistants" class="assistant-card">
-          <div class="assistant-header">
-            <h3>{{ assistant.name }}</h3>
-            <span class="assistant-id">{{ assistant.id | slice:0:8 }}...</span>
-          </div>
+          <h3>{{ assistant.name }}</h3>
           <div class="assistant-details">
             <div class="detail-item">
-              <span class="detail-label">Model:</span>
-              <span class="detail-value">{{ assistant.model.model }}</span>
+              <span class="detail-label">Assistant ID:</span>
+              <span class="detail-value">{{ assistant.id | slice:0:8 }}...</span>
             </div>
             <div class="detail-item">
               <span class="detail-label">Voice:</span>
@@ -83,9 +77,41 @@
     </div>
 
     <div *ngIf="activeTab === 'callHistory'" class="tab-content call-history-section">
-      <div class="empty-state">
-          <p>No call log found for now (we'll interate call history API later).</p>
+      
+      <div *ngIf="isCallLogsLoading" class="loading-state">
+        <p>Loading call history...</p>
+        <div class="spinner"></div>
       </div>
+
+      <div *ngIf="!isCallLogsLoading && callLogsResponse.callLogs.length === 0" class="empty-state">
+        <p>No call logs found for your account.</p>
+      </div>
+
+      <div *ngIf="!isCallLogsLoading && callLogsResponse.callLogs.length > 0">
+        <h2>Call History (Total: {{ callLogsResponse.pagination.totalCount }})</h2>
+        <table class="call-logs-table">
+          <thead>
+            <tr>
+              <th>Serial No.</th>
+              <th>Call ID</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Report</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of callLogsResponse.callLogs; let i = index">
+              <td>{{ (callLogsResponse.pagination.pageNumber! - 1) * callLogsResponse.pagination.pageSize! + i + 1 }}</td>
+              <td>{{ log.callId | slice:0:8 }}...</td>
+              <td>{{ log.status }}</td>
+              <td>{{ log.createdAt | date:'medium' }}</td>
+              <td>
+                <button class="report-details-button" [disabled]="log.status!='EVALUATED'">Details</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
     </div>
   </div>
 </div>
@@ -101,10 +127,12 @@
       <span class="mic-icon">🎙️</span> 
     </div>
     
-    <button (click)="endVapiCall()" class="end-call-button" [disabled]="callState?.isConnecting">
-      End Call
+    <button (click)="endVapiCall()" class="end-call-button">
+      <span *ngIf="callState?.isConnecting">Cancel</span>
+      <span *ngIf="callState?.isActive">End Call</span>
     </button>
-    
-    <p *ngIf="callState?.errorMessage" class="error-message">{{ callState?.errorMessage }}</p>
+    <div *ngIf="callState?.errorMessage" class="call-error-message">
+      {{ callState?.errorMessage }}
+    </div>
   </div>
 </div>

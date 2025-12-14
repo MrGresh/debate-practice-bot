@@ -88,6 +88,7 @@ export interface FetchCallLogsResponseData {
         count: number;
       };
     };
+    createdAt: string;
     startedAt: string;
     endedAt: string;
     status: string;

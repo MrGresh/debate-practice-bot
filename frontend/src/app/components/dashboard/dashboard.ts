@@ -30,14 +30,14 @@ export class Dashboard {
   
   activeTab: 'assistants' | 'callHistory' = 'assistants';
 
-    callState: VapiInterfaces.CallState | null = null;
+  callState: VapiInterfaces.CallState | null = null;
   private callStateSubscription: Subscription = new Subscription();
   
   get isCallDialogOpen(): boolean {
     return this.callState ? (this.callState.isActive || this.callState.isConnecting) : false;
   }
-  
-  callLogsResponse: ApiResInterfaces.FetchCallLogsResponseData | null = null; 
+
+  callLogsResponse: ApiResInterfaces.FetchCallLogsResponseData = { callLogs: [], pagination: { pageNumber: 1, pageSize: 10, totalCount: 0, totalPages: 0 } };
   isCallLogsLoading: boolean = false;
 
   ngOnInit(): void {

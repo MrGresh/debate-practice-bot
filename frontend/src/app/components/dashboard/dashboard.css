@@ -40,29 +40,18 @@
   text-align: center;
   padding: 20px;
   margin: 20px 0;
+  border: 1px dashed #ccc;
   border-radius: 8px;
-  font-size: 1.1em;
-}
-
-.loading-state {
-  background-color: #ecf0f1;
-  color: #3498db;
-}
-
-.error-state {
-  background-color: #fbe6e4;
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
 }
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-top: 4px solid #3498db;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   animation: spin 1s linear infinite;
-  margin: 10px auto 0;
+  margin: 10px auto;
 }
 
 @keyframes spin {
@@ -71,37 +60,28 @@
 }
 
 .profile-card {
-  background-color: #fff;
+  background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
 }
 
 .profile-card h2 {
   color: #34495e;
-  border-bottom: 1px dashed #ccc;
-  padding-bottom: 10px;
   margin-top: 0;
-  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 
 .profile-info {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.info-item {
-  display: flex;
+  gap: 30px;
 }
 
 .info-item .label {
   font-weight: bold;
-  color: #555;
-  margin-right: 10px;
-  min-width: 60px;
+  color: #7f8c8d;
 }
 
 .info-item .value {
@@ -110,142 +90,97 @@
 
 .tabs-nav {
   display: flex;
-  border-bottom: 2px solid #ccc;
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 
 .tab-button {
-  width: 50%;
-  padding: 10px 20px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
+  background-color: #ecf0f1;
   color: #7f8c8d;
-  transition: color 0.2s, border-bottom 0.2s;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-}
-
-.tab-button:hover {
-  color: #34495e;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+  border-radius: 5px 5px 0 0;
+  margin-right: 5px;
 }
 
 .tab-button.active {
-  color: #3498db;
-  border-bottom: 2px solid #3498db;
+  background-color: #3498db;
+  color: white;
 }
 
 .tab-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  min-height: 200px;
-}
-/* END NEW STYLES */
-
-/* Updated .assistants-section to remove margin/border since it's now in a tab-content */
-.assistants-section {
-  padding-top: 0;
-  border-top: none;
+  background-color: white;
+  padding: 25px;
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.section-title {
-  color: #3498db;
-  font-size: 1.6em;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.assistants-list {
+.assistant-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
 .assistant-card {
-  background-color: #ecf0f1;
+  border: 1px solid #ddd;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.3s;
 }
 
 .assistant-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.assistant-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #bdc3c7;
-  padding-bottom: 10px;
+.assistant-card h3 {
+  color: #2c3e50;
+  margin-top: 0;
   margin-bottom: 15px;
 }
 
-.assistant-header h3 {
-  color: #2c3e50;
-  font-size: 1.2em;
-  margin: 0;
-}
-
-.assistant-id {
-  font-size: 0.8em;
-  color: #7f8c8d;
-  background-color: #f0f0f0;
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
 .assistant-details {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
 }
 
 .detail-item {
-  display: flex;
-  font-size: 0.9em;
+  margin-bottom: 5px;
 }
 
 .detail-label {
   font-weight: bold;
-  color: #555;
-  margin-right: 5px;
-  min-width: 90px;
+  color: #3498db;
+  display: inline-block;
+  min-width: 100px;
 }
 
 .detail-value {
-  color: #34495e;
-  flex-grow: 1;
+  color: #555;
+  word-break: break-all;
 }
 
-.first-message {
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+.start-call-button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  width: 100%;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 30px;
-  background-color: #fff;
-  border: 1px dashed #ccc;
-  border-radius: 8px;
-  color: #7f8c8d;
-  margin: 20px 0; /* Added margin for call history tab */
+.start-call-button:hover {
+  background-color: #27ae60;
 }
 
-
-/* NEW STYLES FOR CALL DIALOG */
-
-/* Backdrop that covers the screen */
+/* Call Dialog Styles */
 .call-dialog-backdrop {
   position: fixed;
   top: 0;
@@ -256,35 +191,47 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it floats above all other content */
+  z-index: 1000;
 }
 
-/* The dialog box itself */
 .call-dialog {
-  background-color: #fff;
+  background-color: white;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   text-align: center;
-  width: 300px;
-  transition: transform 0.3s ease-out;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .call-status {
   margin-bottom: 20px;
-  font-size: 1.1em;
   font-weight: bold;
 }
 
 .connecting-text {
-  color: #f39c12; /* Orange for connecting */
+  color: #f39c12;
 }
 
 .active-text {
-  color: #2ecc71; /* Green for active */
+  color: #2ecc71;
 }
 
-.error-message {
+.end-call-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+}
+
+.end-call-button:hover {
+  background-color: #c0392b;
+}
+
+.call-error-message {
   color: #e74c3c;
   margin-top: 15px;
   font-size: 0.9em;
@@ -301,11 +248,10 @@
 }
 
 .mic-icon {
-  font-size: 3em; /* Make the icon large */
+  font-size: 3em; 
   line-height: 1;
 }
 
-/* Pulsing effect when the call is active */
 .pulsing {
   animation: pulse 1.5s infinite;
 }
@@ -322,44 +268,51 @@
   }
 }
 
-.end-call-button {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 50px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.1em;
+/* --- New Call Logs Table Styles --- */
+.call-logs-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 20px;
-  transition: background-color 0.2s;
+  font-size: 0.9em;
 }
 
-.start-call-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
+.call-logs-table th,
+.call-logs-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.call-logs-table th {
+  background-color: #f2f2f2;
+  color: #34495e;
+  font-weight: bold;
+}
+
+.call-logs-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.call-logs-table tbody tr:hover {
+  background-color: #f0f8ff;
+}
+
+.report-details-button {
   background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s;
   font-weight: bold;
-  font-size: 1em;
-  transition: background-color 0.2s, transform 0.1s;
 }
 
-.start-call-button:hover {
+.report-details-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.report-details-button:hover {
   background-color: #2980b9;
-  transform: translateY(-1px);
-}
-
-.start-call-button:active {
-  background-color: #21618c;
-  transform: translateY(0);
-}
-
-.end-call-button:hover {
-  background-color: #c0392b;
 }
