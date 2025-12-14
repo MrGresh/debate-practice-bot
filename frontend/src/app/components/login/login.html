@@ -1,7 +1,9 @@
 <div class="login-container">
   <div class="card">
-    <h2 class="title">Welcome Back</h2>
-    <p class="subtitle">Sign in to continue to your dashboard.</p>
+    <div class="card-header">
+      <h2 class="title">Welcome Back</h2>
+      <p class="subtitle">Sign in to continue to your dashboard.</p>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       
@@ -13,6 +15,7 @@
           formControlName="email" 
           [class.is-invalid]="f['email'].invalid && (f['email'].dirty || f['email'].touched)"
           placeholder="your.email@example.com"
+          autocomplete="email"
         />
         <div *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)" class="error-message">
           <span *ngIf="f['email'].errors?.['required']">Email is required.</span>
@@ -28,12 +31,14 @@
           formControlName="password" 
           [class.is-invalid]="f['password'].invalid && (f['password'].dirty || f['password'].touched)"
           placeholder="••••••••"
+          autocomplete="current-password"
         />
         <button 
           type="button" 
           class="password-toggle" 
           (click)="togglePasswordVisibility()" 
-          title="Toggle password visibility">
+          title="Toggle password visibility"
+          aria-label="Toggle password visibility">
           {{ isPasswordVisible ? '👁️' : '🔒' }}
         </button>
         <div *ngIf="f['password'].invalid && (f['password'].dirty || f['password'].touched)" class="error-message">
@@ -44,7 +49,10 @@
 
       <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-primary">
         <span *ngIf="!isLoading">Login</span>
-        <span *ngIf="isLoading">Logging in...</span>
+        <span *ngIf="isLoading" class="loading-state">
+          <span class="spinner"></span>
+          Logging in...
+        </span>
       </button>
     </form>
     

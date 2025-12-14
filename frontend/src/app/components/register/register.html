@@ -16,6 +16,7 @@
           formControlName="name" 
           [class.is-invalid]="regF['name'].invalid && (regF['name'].dirty || regF['name'].touched)"
           placeholder="John Doe"
+          autocomplete="name"
         />
         <div *ngIf="regF['name'].invalid && (regF['name'].dirty || regF['name'].touched)" class="error-message">
           <span *ngIf="regF['name'].errors?.['required']">Name is required.</span>
@@ -30,6 +31,7 @@
           formControlName="email" 
           [class.is-invalid]="regF['email'].invalid && (regF['email'].dirty || regF['email'].touched)"
           placeholder="your.email@example.com"
+          autocomplete="email"
         />
         <div *ngIf="regF['email'].invalid && (regF['email'].dirty || regF['email'].touched)" class="error-message">
           <span *ngIf="regF['email'].errors?.['required']">Email is required.</span>
@@ -45,12 +47,14 @@
           formControlName="password" 
           [class.is-invalid]="regF['password'].invalid && (regF['password'].dirty || regF['password'].touched)"
           placeholder="••••••••"
+          autocomplete="new-password"
         />
         <button 
           type="button" 
           class="password-toggle" 
           (click)="togglePasswordVisibility('password')" 
-          title="Toggle password visibility">
+          title="Toggle password visibility"
+          aria-label="Toggle password visibility">
           {{ isPasswordVisible ? '👁️' : '🔒' }}
         </button>
         <div *ngIf="regF['password'].invalid && (regF['password'].dirty || regF['password'].touched)" class="error-message">
@@ -70,19 +74,21 @@
             (registerForm.errors?.['passwordsNotMatching'] && regF['confirmPassword'].value)
           "
           placeholder="••••••••"
+          autocomplete="new-password"
         />
         <button 
           type="button" 
           class="password-toggle" 
           (click)="togglePasswordVisibility('confirmPassword')" 
-          title="Toggle password visibility">
+          title="Toggle password visibility"
+          aria-label="Toggle confirm password visibility">
           {{ isConfirmPasswordVisible ? '👁️' : '🔒' }}
         </button>
         <div *ngIf="regF['confirmPassword'].invalid && (regF['confirmPassword'].dirty || regF['confirmPassword'].touched)" class="error-message">
-            <span *ngIf="regF['confirmPassword'].errors?.['required']">Confirmation is required.</span>
+          <span *ngIf="regF['confirmPassword'].errors?.['required']">Confirmation is required.</span>
         </div>
         <div *ngIf="registerForm.errors?.['passwordsNotMatching'] && regF['confirmPassword'].value && (regF['confirmPassword'].dirty || regF['confirmPassword'].touched)" class="error-message">
-            <span>Passwords do not match.</span>
+          <span>Passwords do not match.</span>
         </div>
       </div>
 
@@ -107,6 +113,7 @@
           maxlength="6"
           [class.is-invalid]="otpF['otp'].invalid && (otpF['otp'].dirty || otpF['otp'].touched)"
           placeholder="Enter 6-digit code"
+          autocomplete="one-time-code"
         />
         <div *ngIf="otpF['otp'].invalid && (otpF['otp'].dirty || otpF['otp'].touched)" class="error-message">
           <span *ngIf="otpF['otp'].errors?.['required']">OTP is required.</span>
@@ -121,15 +128,15 @@
 
       <div class="otp-footer-links">
         <p *ngIf="otpCountdownSeconds > 0" class="countdown-text">
-            Resend in: <strong>{{ countdownDisplay }}</strong>
+          Resend in: <strong>{{ countdownDisplay }}</strong>
         </p>
         
         <button 
           type="button" 
-          class="link resend-btn" 
+          class="resend-btn" 
           (click)="resendOtp()" 
           [disabled]="otpCountdownSeconds > 0 || isLoading">
-            {{ otpCountdownSeconds > 0 ? 'Wait to Resend' : 'Resend OTP' }}
+          {{ otpCountdownSeconds > 0 ? 'Wait to Resend' : 'Resend OTP' }}
         </button>
         <a [routerLink]="['/login']" class="link">Go to Login</a>
       </div>
