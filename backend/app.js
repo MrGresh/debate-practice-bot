@@ -9,7 +9,7 @@ const apiRouter = require("./src/routes");
 const app = express();
 
 const corsOptions = {
-  origin: SERVER_CONFIG.INTERVIEW_FRONTEND_URL,
+  origin: SERVER_CONFIG.FRONTEND_URL,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
